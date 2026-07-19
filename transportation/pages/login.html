@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - MALUKU LOGISTICS</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="manifest" href="../pwa/manifest.json">
+  <link rel="icon" href="/icons/icon-192x192.png">
+  <meta name="theme-color" content="#003333">
+</head>
+<body>
+  <div class="login-wrapper">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="logo-icon">K</div>
+        <h1>MALUKU LOGISTICS</h1>
+        <p>Sign in to your account</p>
+      </div>
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label">Email Address <span class="required">*</span></label>
+          <input type="email" id="login-email" class="form-control" placeholder="admin@kasuku.co.tz" value="admin@kasuku.co.tz" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password <span class="required">*</span></label>
+          <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required>
+        </div>
+        <div class="form-group d-flex align-center justify-between">
+          <label class="d-flex align-center gap-2 cursor-pointer">
+            <input type="checkbox" id="login-remember" checked> Remember me
+          </label>
+          <a href="#" class="text-primary text-sm font-weight-600">Forgot password?</a>
+        </div>
+        <div id="login-error" class="text-danger text-sm mb-2" style="display:none;"></div>
+        <button type="submit" class="btn btn-primary w-full justify-end p-4">
+          <i class="fas fa-sign-in-alt"></i> Sign In
+        </button>
+      </form>
+      <div class="login-footer">
+        &copy; 2024 MALUKU LOGISTICS. All rights reserved.
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../js/theme.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    // Resolve the API base from the current page location so login works
+    // whether the app is served from the domain root or a subpath, and
+    // whether opened via the PHP server or Railway. Override with
+    // window.API_BASE if you need to point at a different origin.
+    var API_BASE = window.API_BASE;
+    if (!API_BASE) {
+      var base = window.location.origin + window.location.pathname;
+      // pages/login.html -> strip to the app root, then append api/
+      base = base.substring(0, base.lastIndexOf('/') + 1);
+      API_BASE = base.replace(/\/pages\/?$/, '/') + 'api';
+    }
+
+    document.getElementById('login-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = document.getElementById('login-email').value.trim();
+      var password = document.getElementById('login-password').value;
+      var errorEl = document.getElementById('login-error');
+      errorEl.style.display = 'none';
+
+      if (!email || !password) {
+        errorEl.textContent = 'Please enter your email and password.';
+        errorEl.style.display = 'block';
+        return;
+      }
+
+      Utils.showLoader();
+      fetch(API_BASE + '/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, password: password })
+      })
+        .then(function (res) {
+          return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+        })
+        .then(function (result) {
+          Utils.hideLoader();
+          if (!result.ok) {
+            errorEl.textContent = (result.data && result.data.error) || 'Login failed.';
+            errorEl.style.display = 'block';
+            return;
+          }
+          var store = document.getElementById('login-remember').checked
+            ? localStorage : sessionStorage;
+          store.setItem('auth_token', result.data.token);
+          store.setItem('auth_user', JSON.stringify(result.data.user));
+          window.location.href = 'dashboard.html';
+        })
+        .catch(function () {
+          Utils.hideLoader();
+          if (window.location.protocol === 'file:') {
+            errorEl.textContent = 'This page must be served by the backend. Open it via http://localhost:8000/ (or your deployed URL), not by double-clicking the file.';
+          } else {
+            errorEl.textContent = 'Unable to reach the server at ' + API_BASE + '. Please try again.';
+          }
+          errorEl.style.display = 'block';
+        });
+    });
+  </script>
+</body>
+</html>

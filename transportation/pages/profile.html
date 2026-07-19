@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile - MALUKU LOGISTICS</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="manifest" href="../pwa/manifest.json">
+  <link rel="icon" href="/icons/icon-192x192.png">
+</head>
+<body>
+  <div class="loader-overlay">
+    <div class="spinner"></div>
+    <p class="text-secondary">Loading profile...</p>
+  </div>
+
+  <div class="app-wrapper">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">K</div>
+        <span class="brand-text">MALUKU</span>
+      </div>
+      <nav class="sidebar-menu">
+        <div class="menu-section">Main</div>
+        <a href="dashboard.html" class="menu-item" data-page="dashboard"><i class="fas fa-th-large"></i><span class="menu-text">Dashboard</span></a>
+        <div class="menu-section">Transport Management</div>
+        <a href="vehicles.html" class="menu-item" data-page="vehicles"><i class="fas fa-car"></i><span class="menu-text">Vehicles</span></a>
+        <a href="trailers.html" class="menu-item" data-page="trailers"><i class="fas fa-trailer"></i><span class="menu-text">Trailers</span></a>
+        <a href="drivers.html" class="menu-item" data-page="drivers"><i class="fas fa-id-card"></i><span class="menu-text">Drivers</span></a>
+        <a href="trips.html" class="menu-item" data-page="trips"><i class="fas fa-route"></i><span class="menu-text">Trips</span></a>
+        <div class="menu-section">General Supply</div>
+        <a href="suppliers.html" class="menu-item" data-page="suppliers"><i class="fas fa-truck-loading"></i><span class="menu-text">Suppliers</span></a>
+        <a href="inventory.html" class="menu-item" data-page="inventory"><i class="fas fa-boxes"></i><span class="menu-text">Inventory</span></a>
+        <a href="purchase-orders.html" class="menu-item" data-page="purchase-orders"><i class="fas fa-file-invoice"></i><span class="menu-text">Purchase Orders</span></a>
+        <div class="menu-section">Finance</div>
+        <a href="expenses.html" class="menu-item" data-page="expenses"><i class="fas fa-receipt"></i><span class="menu-text">Expenses</span></a>
+        <a href="invoices.html" class="menu-item" data-page="invoices"><i class="fas fa-file-invoice-dollar"></i><span class="menu-text">Invoices</span></a>
+        <a href="payments.html" class="menu-item" data-page="payments"><i class="fas fa-money-bill-wave"></i><span class="menu-text">Payments</span></a>
+        <div class="menu-section">Analytics</div>
+        <a href="reports.html" class="menu-item" data-page="reports"><i class="fas fa-chart-bar"></i><span class="menu-text">Reports</span></a>
+        <div class="menu-section">System</div>
+        <a href="users.html" class="menu-item" data-page="users"><i class="fas fa-users"></i><span class="menu-text">Users</span></a>
+        <a href="settings.html" class="menu-item" data-page="settings"><i class="fas fa-cog"></i><span class="menu-text">Settings</span></a>
+        <a href="profile.html" class="menu-item" data-page="profile"><i class="fas fa-user-circle"></i><span class="menu-text">Profile</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="#" class="menu-item" onclick="event.preventDefault(); window.location.href='../login.html';"><i class="fas fa-sign-out-alt"></i><span class="menu-text">Logout</span></a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="topbar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar" aria-controls="sidebar" aria-expanded="false"><i class="fas fa-bars"></i></button>
+          <div class="breadcrumb">
+            <a href="#">Home</a>
+            <span class="separator">/</span>
+            <span class="current">Profile</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="topbar-search-toggle" id="topbar-search-toggle" type="button" aria-label="Search"><i class="fas fa-search"></i></button>
+          <div class="topbar-search"><i class="fas fa-search"></i><input type="text" placeholder="Search anything..."></div>
+          <button class="topbar-icon-btn" id="theme-toggle" aria-label="Toggle theme"><i class="fas fa-moon" id="theme-icon"></i></button>
+          <div class="dropdown">
+            <button class="topbar-icon-btn dropdown-toggle" aria-label="Notifications"><i class="fas fa-bell"></i><span class="badge"></span></button>
+            <div class="dropdown-menu">
+              <div class="dropdown-item"><i class="fas fa-truck-fast"></i> Trip completed</div>
+              <div class="dropdown-item"><i class="fas fa-file-invoice"></i> Invoice paid</div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item"><i class="fas fa-check-circle text-success"></i> Mark all as read</div>
+            </div>
+          </div>
+          <div class="dropdown">
+            <div class="topbar-user dropdown-toggle">
+              <div class="avatar">AU</div>
+              <div class="user-info"><span class="user-name">Admin User</span><span class="user-role">Administrator</span></div>
+            </div>
+            <div class="dropdown-menu">
+              <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
+              <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" onclick="event.preventDefault(); window.location.href='../login.html';"><i class="fas fa-sign-out-alt text-danger"></i> Logout</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <h1>My Profile</h1>
+            <p>View and update your personal account details.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 align-start">
+          <div class="card text-center">
+            <div class="card-body d-flex flex-column align-center gap-4">
+              <div class="avatar avatar-lg">AU</div>
+              <div>
+                <div class="text-lg font-weight-700">Admin User</div>
+                <span class="badge badge-primary">Administrator</span>
+              </div>
+              <div class="profile-info">
+                <div class="d-flex gap-2 align-center"><i class="fas fa-envelope text-secondary"; width:18px;"></i><span>admin@kasuku.co.tz</span></div>
+                <div class="d-flex gap-2 align-center"><i class="fas fa-phone text-secondary"; width:18px;"></i><span>+255 700 123 456</span></div>
+                <div class="d-flex gap-2 align-center"><i class="fas fa-clock text-secondary"; width:18px;"></i><span>Last login: 2024-07-15 09:30</span></div>
+              </div>
+              <button class="btn btn-secondary w-full" onclick="Utils.toast('Photo upload is a placeholder', 'info')"><i class="fas fa-camera"></i> Change Photo</button>
+            </div>
+          </div>
+
+          <div class="card col-span-2">
+            <div class="card-header"><h3 class="card-title"><i class="fas fa-user-edit"></i> Profile Details</h3></div>
+            <div class="card-body">
+              <form id="profile-form">
+                <div class="grid grid-cols-2">
+                  <div class="form-group">
+                    <label class="form-label">Full Name <span class="required">*</span></label>
+                    <input type="text" class="form-control" id="p-name" value="Admin User">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Email <span class="required">*</span></label>
+                    <input type="email" class="form-control" id="p-email" value="admin@kasuku.co.tz">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Phone</label>
+                    <input type="text" class="form-control" id="p-phone" value="+255 700 123 456">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Role</label>
+                    <input type="text" class="form-control" id="p-role" value="Administrator" readonly>
+                  </div>
+                </div>
+                <div class="page-header-actions justify-end mt-2">
+                  <button type="reset" class="btn btn-secondary"><i class="fas fa-times"></i> Cancel</button>
+                  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Changes</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mt-4">
+          <div class="card-header"><h3 class="card-title"><i class="fas fa-lock"></i> Change Password</h3></div>
+          <div class="card-body">
+            <form id="password-form">
+              <div class="grid grid-cols-3">
+                <div class="form-group">
+                  <label class="form-label">Current Password</label>
+                  <input type="password" class="form-control" id="cur-pass" placeholder="Enter current password">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">New Password</label>
+                  <input type="password" class="form-control" id="new-pass" placeholder="Enter new password">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Confirm Password</label>
+                  <input type="password" class="form-control" id="conf-pass" placeholder="Confirm new password">
+                </div>
+              </div>
+              <div class="page-header-actions justify-end mt-2">
+                <button type="reset" class="btn btn-secondary"><i class="fas fa-times"></i> Cancel</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-key"></i> Update Password</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <span> MALUKU LOGISTICS v1.0</span>
+        <span> Powered by PHP & PostgreSQL</span>
+      </footer>
+    </main>
+  </div>
+
+  <div class="toast-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/theme.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/charts.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/api.js"></script>
+  <script>
+    function initials(name) {
+      return name.split(' ').map(p => p[0]).slice(0, 2).join('').toUpperCase();
+    }
+
+    function applyUser(u) {
+      if (!u) return;
+      document.getElementById('p-name').value = u.name || '';
+      document.getElementById('p-email').value = u.email || '';
+      document.getElementById('p-role').value = u.role || '';
+      var nameEl = document.querySelector('.topbar-user .user-name');
+      if (nameEl) nameEl.textContent = u.name || '';
+      var roleEl = document.querySelector('.topbar-user .user-role');
+      if (roleEl) roleEl.textContent = u.role || '';
+      var av = document.querySelector('.topbar-user .avatar');
+      if (av) av.textContent = initials(u.name || 'U');
+      // Profile card header
+      var big = document.querySelector('.card .text-lg.font-weight-700');
+      if (big) big.textContent = u.name || '';
+      var badge = document.querySelector('.card .badge-primary');
+      if (badge) badge.textContent = u.role || '';
+      var avLg = document.querySelector('.avatar-lg');
+      if (avLg) avLg.textContent = initials(u.name || 'U');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      var raw = localStorage.getItem('auth_user') || sessionStorage.getItem('auth_user');
+      if (raw) {
+        try { applyUser(JSON.parse(raw)); } catch (e) {}
+      }
+    });
+
+    document.getElementById('profile-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('p-name').value.trim();
+      const email = document.getElementById('p-email').value.trim();
+      if (!name || !email) {
+        Utils.toast('Name and email are required', 'error');
+        return;
+      }
+      document.querySelector('.topbar-user .user-name').textContent = name;
+      document.querySelector('.avatar').textContent = name.split(' ').map(p => p[0]).slice(0, 2).join('').toUpperCase();
+      Utils.toast('Profile updated', 'success');
+    });
+
+    document.getElementById('password-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const cur = document.getElementById('cur-pass').value;
+      const nw = document.getElementById('new-pass').value;
+      const conf = document.getElementById('conf-pass').value;
+      if (!cur || !nw || !conf) {
+        Utils.toast('All password fields are required', 'error');
+        return;
+      }
+      if (nw !== conf) {
+        Utils.toast('New passwords do not match', 'error');
+        return;
+      }
+      e.target.reset();
+      Utils.toast('Password changed successfully', 'success');
+    });
+  </script>
+</body>
+</html>

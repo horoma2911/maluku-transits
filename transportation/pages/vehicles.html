@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicles - MALUKU LOGISTICS</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="app-wrapper">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">K</div>
+        <span class="brand-text">MALUKU</span>
+      </div>
+      <nav class="sidebar-menu">
+        <div class="menu-section">Main</div>
+        <a href="dashboard.html" class="menu-item" data-page="dashboard">
+          <i class="fas fa-th-large"></i>
+          <span class="menu-text">Dashboard</span>
+        </a>
+        <div class="menu-section">Transport Management</div>
+        <a href="vehicles.html" class="menu-item active" data-page="vehicles">
+          <i class="fas fa-car"></i>
+          <span class="menu-text">Vehicles</span>
+        </a>
+        <a href="trailers.html" class="menu-item" data-page="trailers">
+          <i class="fas fa-trailer"></i>
+          <span class="menu-text">Trailers</span>
+        </a>
+        <a href="drivers.html" class="menu-item" data-page="drivers">
+          <i class="fas fa-id-card"></i>
+          <span class="menu-text">Drivers</span>
+        </a>
+        <a href="trips.html" class="menu-item" data-page="trips">
+          <i class="fas fa-route"></i>
+          <span class="menu-text">Trips</span>
+        </a>
+        <div class="menu-section">General Supply</div>
+        <a href="suppliers.html" class="menu-item" data-page="suppliers">
+          <i class="fas fa-truck-loading"></i>
+          <span class="menu-text">Suppliers</span>
+        </a>
+        <a href="inventory.html" class="menu-item" data-page="inventory">
+          <i class="fas fa-boxes"></i>
+          <span class="menu-text">Inventory</span>
+        </a>
+        <a href="purchase-orders.html" class="menu-item" data-page="purchase-orders">
+          <i class="fas fa-file-invoice"></i>
+          <span class="menu-text">Purchase Orders</span>
+        </a>
+        <div class="menu-section">Finance</div>
+        <a href="expenses.html" class="menu-item" data-page="expenses">
+          <i class="fas fa-receipt"></i>
+          <span class="menu-text">Expenses</span>
+        </a>
+        <a href="invoices.html" class="menu-item" data-page="invoices">
+          <i class="fas fa-file-invoice-dollar"></i>
+          <span class="menu-text">Invoices</span>
+        </a>
+        <a href="payments.html" class="menu-item" data-page="payments">
+          <i class="fas fa-money-bill-wave"></i>
+          <span class="menu-text">Payments</span>
+        </a>
+        <div class="menu-section">Analytics</div>
+        <a href="reports.html" class="menu-item" data-page="reports">
+          <i class="fas fa-chart-bar"></i>
+          <span class="menu-text">Reports</span>
+        </a>
+        <div class="menu-section">System</div>
+        <a href="users.html" class="menu-item" data-page="users">
+          <i class="fas fa-users"></i>
+          <span class="menu-text">Users</span>
+        </a>
+        <a href="settings.html" class="menu-item" data-page="settings">
+          <i class="fas fa-cog"></i>
+          <span class="menu-text">Settings</span>
+        </a>
+        <a href="profile.html" class="menu-item" data-page="profile">
+          <i class="fas fa-user-circle"></i>
+          <span class="menu-text">Profile</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="#" class="menu-item" onclick="event.preventDefault(); window.location.href='../login.html';">
+          <i class="fas fa-sign-out-alt"></i>
+          <span class="menu-text">Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="topbar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar" aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="breadcrumb">
+            <a href="#">Home</a>
+            <span class="separator">/</span>
+            <span class="current">Vehicles</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="topbar-search-toggle" id="topbar-search-toggle" type="button" aria-label="Search"><i class="fas fa-search"></i></button>
+          <div class="topbar-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search anything...">
+          </div>
+          <button class="topbar-icon-btn" id="theme-toggle" aria-label="Toggle theme">
+            <i class="fas fa-moon" id="theme-icon"></i>
+          </button>
+          <div class="dropdown">
+            <button class="topbar-icon-btn dropdown-toggle" aria-label="Notifications">
+              <i class="fas fa-bell"></i>
+              <span class="badge"></span>
+            </button>
+            <div class="dropdown-menu">
+              <div class="dropdown-item"><i class="fas fa-truck-fast"></i> Trip completed</div>
+              <div class="dropdown-item"><i class="fas fa-file-invoice"></i> Invoice paid</div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item"><i class="fas fa-check-circle text-success"></i> Mark all as read</div>
+            </div>
+          </div>
+          <div class="dropdown">
+            <div class="topbar-user dropdown-toggle">
+              <div class="avatar">AU</div>
+              <div class="user-info">
+                <span class="user-name">Admin User</span>
+                <span class="user-role">Administrator</span>
+              </div>
+            </div>
+            <div class="dropdown-menu">
+              <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
+              <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" onclick="event.preventDefault(); window.location.href='../login.html';">
+                <i class="fas fa-sign-out-alt text-danger"></i> Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <div class="page-header">
+          <h1>Vehicles</h1>
+          <p>Manage your fleet of vehicles and assignments</p>
+        </div>
+
+        <div class="card">
+          <div class="table-toolbar">
+            <div class="table-search">
+              <i class="fas fa-search"></i>
+              <input type="text" id="searchInput" placeholder="Search vehicles...">
+            </div>
+            <div class="table-actions">
+              <button class="btn btn-primary" id="addBtn">
+                <i class="fas fa-plus"></i> Add Vehicle
+              </button>
+              <button class="btn btn-secondary" onclick="Utils.downloadPdf('/api/report?resource=vehicles')">
+                <i class="fas fa-file-pdf"></i> Export PDF
+              </button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Plate Number</th>
+                  <th>Make</th>
+                  <th>Model</th>
+                  <th>Year</th>
+                  <th>Capacity</th>
+                  <th>Driver</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <span> MALUKU LOGISTICS v1.0</span>
+        <span> Powered by PHP & PostgreSQL</span>
+      </footer>
+    </main>
+  </div>
+
+  <div class="modal-overlay" id="formModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">Add Vehicle</h3>
+        <button class="modal-close" onclick="closeModal('formModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="vehicleForm">
+          <div class="form-group">
+            <label class="form-label">Plate Number <span class="required">*</span></label>
+            <input type="text" class="form-control" id="vPlate" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Make <span class="required">*</span></label>
+            <input type="text" class="form-control" id="vMake" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Model <span class="required">*</span></label>
+            <input type="text" class="form-control" id="vModel" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Year</label>
+            <input type="number" class="form-control" id="vYear">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Capacity</label>
+            <input type="text" class="form-control" id="vCapacity">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Driver</label>
+            <input type="text" class="form-control" id="vDriver">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <select class="form-control" id="vStatus">
+              <option value="active">Active</option>
+              <option value="maintenance">Maintenance</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('formModal')">Cancel</button>
+        <button class="btn btn-primary" id="saveBtn">Save Vehicle</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="viewModal">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h3 class="modal-title">Vehicle Details</h3>
+        <button class="modal-close" onclick="closeModal('viewModal')">&times;</button>
+      </div>
+      <div class="modal-body" id="viewModalBody"></div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('viewModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/theme.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/api.js"></script>
+  <script>
+    let vehicles = [];
+    let editingId = null;
+
+    function renderTable(data) {
+      const tbody = document.getElementById('tableBody');
+      if (!data.length) {
+        tbody.innerHTML = '<tr><td colspan="8" class="text-center empty-cell">No vehicles found</td></tr>';
+        return;
+      }
+      tbody.innerHTML = data.map(v => `
+        <tr>
+          <td class="font-weight-600">${Utils.escapeHtml(v.plate)}</td>
+          <td>${Utils.escapeHtml(v.make)}</td>
+          <td>${Utils.escapeHtml(v.model)}</td>
+          <td>${v.year}</td>
+          <td>${Utils.escapeHtml(v.capacity)}</td>
+          <td>${Utils.escapeHtml(v.driver)}</td>
+          <td><span class="badge ${Utils.getStatusBadge(v.status)}">${v.status.replace(/_/g, ' ')}</span></td>
+          <td>
+            <div class="table-actions">
+              <button class="btn btn-sm btn-secondary" onclick="viewVehicle(${v.id})" title="View"><i class="fas fa-eye"></i></button>
+              <button class="btn btn-sm btn-secondary" onclick="editVehicle(${v.id})" title="Edit"><i class="fas fa-pencil"></i></button>
+              <button class="btn btn-sm btn-danger" onclick="deleteVehicle(${v.id})" title="Delete"><i class="fas fa-trash"></i></button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    function resetForm() {
+      document.getElementById('vehicleForm').reset();
+      editingId = null;
+      document.getElementById('modalTitle').textContent = 'Add Vehicle';
+    }
+
+    document.getElementById('addBtn').addEventListener('click', () => {
+      resetForm();
+      openModal('formModal');
+    });
+
+    document.getElementById('saveBtn').addEventListener('click', () => {
+      const plate = document.getElementById('vPlate').value.trim();
+      const make = document.getElementById('vMake').value.trim();
+      const model = document.getElementById('vModel').value.trim();
+      if (!plate || !make || !model) {
+        Utils.toast('Please fill in all required fields', 'error');
+        return;
+      }
+      const payload = {
+        plate,
+        make,
+        model,
+        year: parseInt(document.getElementById('vYear').value) || new Date().getFullYear(),
+        capacity: document.getElementById('vCapacity').value.trim() || 'N/A',
+        driver: document.getElementById('vDriver').value.trim() || 'Unassigned',
+        status: document.getElementById('vStatus').value
+      };
+      if (editingId) {
+        Utils.showLoader();
+        API.put('/vehicles?id=' + editingId, payload).then(function () {
+          Utils.hideLoader();
+          Utils.toast('Vehicle updated successfully', 'success');
+          closeModal('formModal');
+          resetForm();
+          load();
+        }).catch(function (err) {
+          Utils.hideLoader();
+          Utils.toast(err.message || 'Update failed', 'error');
+        });
+      } else {
+        Utils.showLoader();
+        API.post('/vehicles', payload).then(function () {
+          Utils.hideLoader();
+          Utils.toast('Vehicle added successfully', 'success');
+          closeModal('formModal');
+          resetForm();
+          load();
+        }).catch(function (err) {
+          Utils.hideLoader();
+          Utils.toast(err.message || 'Add failed', 'error');
+        });
+      }
+    });
+
+    function viewVehicle(id) {
+      const v = vehicles.find(x => x.id === id);
+      if (!v) return;
+      document.getElementById('viewModalBody').innerHTML = `
+        <div class="form-row">
+          <div><strong>Plate Number</strong><div class="text-secondary";margin-top:4px">${Utils.escapeHtml(v.plate)}</div></div>
+          <div><strong>Make</strong><div class="text-secondary";margin-top:4px">${Utils.escapeHtml(v.make)}</div></div>
+          <div><strong>Model</strong><div class="text-secondary";margin-top:4px">${Utils.escapeHtml(v.model)}</div></div>
+          <div><strong>Year</strong><div class="text-secondary";margin-top:4px">${v.year}</div></div>
+          <div><strong>Capacity</strong><div class="text-secondary";margin-top:4px">${Utils.escapeHtml(v.capacity)}</div></div>
+          <div><strong>Driver</strong><div class="text-secondary";margin-top:4px">${Utils.escapeHtml(v.driver)}</div></div>
+          <div><strong>Status</strong><div class="mt-1"><span class="badge ${Utils.getStatusBadge(v.status)}">${v.status.replace(/_/g, ' ')}</span></div></div>
+        </div>
+      `;
+      openModal('viewModal');
+    }
+
+    function editVehicle(id) {
+      const v = vehicles.find(x => x.id === id);
+      if (!v) return;
+      editingId = id;
+      document.getElementById('vPlate').value = v.plate;
+      document.getElementById('vMake').value = v.make;
+      document.getElementById('vModel').value = v.model;
+      document.getElementById('vYear').value = v.year;
+      document.getElementById('vCapacity').value = v.capacity;
+      document.getElementById('vDriver').value = v.driver;
+      document.getElementById('vStatus').value = v.status;
+      document.getElementById('modalTitle').textContent = 'Edit Vehicle';
+      openModal('formModal');
+    }
+
+    function deleteVehicle(id) {
+      Utils.confirm('Are you sure you want to delete this vehicle?', () => {
+        Utils.showLoader();
+        API.del('/vehicles?id=' + id).then(function () {
+          Utils.hideLoader();
+          Utils.toast('Vehicle deleted successfully', 'success');
+          load();
+        }).catch(function (err) {
+          Utils.hideLoader();
+          Utils.toast(err.message || 'Delete failed', 'error');
+        });
+      });
+    }
+
+    function load() {
+      API.get('/vehicles').then(function (rows) {
+        vehicles = rows || [];
+        renderTable(vehicles);
+      }).catch(function (err) {
+        if (err.status === 401) { window.location.href = 'login.html'; return; }
+        Utils.toast(err.message || 'Failed to load vehicles', 'error');
+      });
+    }
+
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase();
+      const filtered = vehicles.filter(v =>
+        v.plate.toLowerCase().includes(q) ||
+        v.make.toLowerCase().includes(q) ||
+        v.model.toLowerCase().includes(q) ||
+        v.driver.toLowerCase().includes(q) ||
+        v.status.toLowerCase().includes(q)
+      );
+      renderTable(filtered);
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      load();
+    });
+  </script>
+</body>
+</html>
