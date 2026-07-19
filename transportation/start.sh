@@ -8,7 +8,7 @@
 
 set -e
 
-PORT="${PORT:-8080}"
+PORT="${PORT:-80}"
 
 echo "Starting Kasuku API on port $PORT"
 
