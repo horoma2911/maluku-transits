@@ -180,23 +180,7 @@
 
         <div class="grid grid-cols-2">
           <div class="card">
-            <div class="card-header"><h3 class="card-title">Top Routes</h3></div>
-            <div class="card-body">
-              <div class="table-responsive">
-              <table>
-                <thead><tr><th>Route</th><th>Trips</th><th>Revenue</th></tr></thead>
-                <tbody>
-                  <tr><td>Dar es Salaam - Dodoma</td><td>142</td><td>TZS 3.1M</td></tr>
-                  <tr><td>Dar es Salaam - Mwanza</td><td>98</td><td>TZS 2.4M</td></tr>
-                  <tr><td>Mbeya - Morogoro</td><td>76</td><td>TZS 1.2M</td></tr>
-                  <tr><td>Tanga - Arusha</td><td>64</td><td>TZS 1.0M</td></tr>
-                </tbody>
-              </table>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-header"><h3 class="card-title">Expense Summary</h3></div>
+            <div class="card-header"><h3 class="card-title">Expense Breakdown</h3></div>
             <div class="card-body">
               <div class="table-responsive">
               <table>
@@ -206,6 +190,34 @@
                 </tbody>
               </table>
               </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">Payment Status</h3></div>
+            <div class="card-body">
+              <div class="table-responsive">
+              <table>
+                <thead><tr><th>Method</th><th>Count</th><th>Total</th></tr></thead>
+                <tbody id="payment-summary">
+                  <tr><td colspan="3" class="text-center text-secondary">Loading...</td></tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mt-6">
+          <div class="card-header d-flex justify-between align-center">
+            <h3 class="card-title" id="report-table-title">Expenses Report</h3>
+            <span class="text-sm text-secondary" id="report-table-count"></span>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead id="report-table-head"></thead>
+                <tbody id="report-table-body"></tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -249,9 +261,10 @@
       Promise.all([
         API.get('/invoices'),
         API.get('/trips'),
-        API.get('/expenses')
+        API.get('/expenses'),
+        API.get('/payments')
       ]).then(function (res) {
-        var invoices = res[0] || [], trips = res[1] || [], expenses = res[2] || [];
+        var invoices = res[0] || [], trips = res[1] || [], expenses = res[2] || [], payments = res[3] || [];
 
         var revenue = invoices.reduce(function (s, i) { return s + parseAmount(i.amount); }, 0);
         var expenseTotal = expenses.reduce(function (s, e) { return s + parseAmount(e.amount); }, 0);
@@ -296,6 +309,28 @@
             sumBody.innerHTML = '<tr><td colspan="3" class="text-center text-secondary">No expenses recorded.</td></tr>';
           }
         }
+
+        // Payment summary
+        var byMethod = {};
+        payments.forEach(function (p) {
+          var m = p.method || 'Other';
+          byMethod[m] = (byMethod[m] || 0) + parseAmount(p.amount);
+        });
+        var payBody = document.getElementById('payment-summary');
+        if (payBody) {
+          var payLabels = Object.keys(byMethod);
+          if (payLabels.length) {
+            payBody.innerHTML = payLabels.map(function (m) {
+              return '<tr><td>' + Utils.escapeHtml(m) + '</td><td>' + (payments.filter(function (p) { return p.method === m; }).length) + '</td><td>TZS ' + Math.round(byMethod[m]).toLocaleString('en-TZ') + '</td></tr>';
+            }).join('');
+          } else {
+            payBody.innerHTML = '<tr><td colspan="3" class="text-center text-secondary">No payments recorded.</td></tr>';
+          }
+        }
+
+        // Store data for report table
+        window._reportData = { invoices: invoices, trips: trips, expenses: expenses, payments: payments };
+        renderReportTable();
       }).catch(function (err) {
         if (err.status === 401) { window.location.href = 'login.html'; }
       });
@@ -305,8 +340,11 @@
         setTimeout(() => {
           Utils.hideLoader();
           Utils.toast('Report generated for selected range', 'success');
+          renderReportTable();
         }, 800);
       });
+
+      document.getElementById('report-type').addEventListener('change', renderReportTable);
 
       document.getElementById('export-btn').addEventListener('click', () => {
         const from = document.getElementById('date-from').value;
@@ -319,6 +357,60 @@
         const url = '/api/report?resource=' + resource + '&from=' + from + '&to=' + to;
         Utils.downloadPdf(url);
       });
+    }
+
+    function renderReportTable() {
+      var type = document.getElementById('report-type').value;
+      var data = window._reportData || {};
+      var rows = [], headers = [], title = '';
+
+      if (type === 'Expenses') {
+        title = 'Expenses Report';
+        headers = ['Ref', 'Category', 'Amount', 'Date', 'Trip', 'Status'];
+        rows = (data.expenses || []).map(function (e) {
+          return [e.ref || '-', e.category || '-', e.amount || '0', e.date || '-', e.trip || '-', e.status || '-'];
+        });
+      } else if (type === 'Trips') {
+        title = 'Trips Report';
+        headers = ['Ref', 'Origin', 'Destination', 'Vehicle', 'Driver', 'Date', 'Status'];
+        rows = (data.trips || []).map(function (t) {
+          return [t.ref || '-', t.origin || '-', t.destination || '-', t.vehicle || '-', t.driver || '-', t.date || '-', t.status || '-'];
+        });
+      } else if (type === 'Revenue') {
+        title = 'Revenue Report';
+        headers = ['Ref', 'Client', 'Date', 'Amount', 'Due', 'Status'];
+        rows = (data.invoices || []).map(function (i) {
+          return [i.ref || '-', i.client || '-', i.date || '-', i.amount || '0', i.due || '-', i.status || '-'];
+        });
+      } else {
+        title = 'All Records Report';
+        headers = ['Type', 'Ref', 'Description', 'Amount', 'Date', 'Status'];
+        rows = [];
+        (data.invoices || []).forEach(function (i) {
+          rows.push(['Invoice', i.ref || '-', i.client || '-', i.amount || '0', i.date || '-', i.status || '-']);
+        });
+        (data.expenses || []).forEach(function (e) {
+          rows.push(['Expense', e.ref || '-', e.category || '-', e.amount || '0', e.date || '-', e.status || '-']);
+        });
+        (data.trips || []).forEach(function (t) {
+          rows.push(['Trip', t.ref || '-', t.origin + ' → ' + t.destination, '-', t.date || '-', t.status || '-']);
+        });
+      }
+
+      document.getElementById('report-table-title').textContent = title;
+      document.getElementById('report-table-count').textContent = rows.length + ' record' + (rows.length !== 1 ? 's' : '');
+
+      var thead = document.getElementById('report-table-head');
+      thead.innerHTML = '<tr>' + headers.map(function (h) { return '<th>' + Utils.escapeHtml(h) + '</th>'; }).join('') + '</tr>';
+
+      var tbody = document.getElementById('report-table-body');
+      if (rows.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="' + headers.length + '" class="text-center text-secondary">No records found for the selected range.</td></tr>';
+      } else {
+        tbody.innerHTML = rows.map(function (r) {
+          return '<tr>' + r.map(function (c) { return '<td>' + Utils.escapeHtml(c) + '</td>'; }).join('') + '</tr>';
+        }).join('');
+      }
     }
   </script>
 </body>

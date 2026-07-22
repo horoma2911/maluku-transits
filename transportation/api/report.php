@@ -84,4 +84,4 @@ $pdf->setColumns($headers);
 foreach ($rows as $r) {
     $pdf->addRow(array_map(fn($c) => $r[$c] ?? '', $safeCols));
 }
-$pdf->output($resource . '-report.pdf');
+$pdf->output($resource . ' report.pdf');
