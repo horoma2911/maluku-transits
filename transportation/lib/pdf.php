@@ -211,7 +211,8 @@ class PdfReport
         }
 
         $lines[] = $this->line($x, $y, $x + $this->usableW, $y, 0.25);
-        return [$lines, $text];
+        $lines[] = $text;
+        return $lines;
     }
 
     private function drawTotalRow(float $x, float $y, array $total): array
@@ -324,7 +325,7 @@ class PdfReport
             $gridY = $this->bodyStartY - 4;
             foreach ($pageRows as $idx => $row) {
                 $isAlt = ($idx % 2 === 1);
-                [$rowLines] = $this->drawRow($x, $gridY, $row, $isAlt, 0);
+                $rowLines = $this->drawRow($x, $gridY, $row, $isAlt, 0);
                 $contentLines = array_merge($contentLines, $rowLines);
                 $gridY -= self::ROW_H;
             }
@@ -344,7 +345,9 @@ class PdfReport
             $objNum += 2;
         }
 
-        $objects = array_merge($fonts, $objects);
+        foreach ($fonts as $k => $v) {
+            $objects[$k] = $v;
+        }
 
         $pdf = "%PDF-1.4\n";
         $offsets = [];
