@@ -141,7 +141,7 @@ CREATE TABLE password_resets (
 
 CREATE TABLE activities (
     id          SERIAL PRIMARY KEY,
-    username        VARCHAR(150),
+    user        VARCHAR(150),
     action      VARCHAR(255),
     time        VARCHAR(100),
     icon        VARCHAR(50)
