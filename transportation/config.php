@@ -9,28 +9,36 @@ define('APP_VERSION', '1.0');
 
 define('APP_SECRET', getenv('APP_SECRET') ?: 'kasuku-dev-secret');
 
-if (getenv('DATABASE_URL')) {
-    $url = parse_url(getenv('DATABASE_URL'));
+function env($key, $default = null) {
+    $val = getenv($key);
+    if ($val !== false && $val !== null) return $val;
+    if (isset($_ENV[$key]) && $_ENV[$key] !== '' && $_ENV[$key] !== null) return $_ENV[$key];
+    if (isset($_SERVER[$key]) && $_SERVER[$key] !== '' && $_SERVER[$key] !== null) return $_SERVER[$key];
+    return $default;
+}
+
+if (env('DATABASE_URL')) {
+    $url = parse_url(env('DATABASE_URL'));
     define('DB_DRIVER', 'pgsql');
     define('DB_HOST', $url['host'] ?? '127.0.0.1');
     define('DB_PORT', $url['port'] ?? '5432');
     define('DB_NAME', ltrim($url['path'] ?? 'kasuku_tgs', '/'));
     define('DB_USER', $url['user'] ?? 'postgres');
     define('DB_PASS', $url['pass'] ?? '');
-} elseif (getenv('DB_DRIVER')) {
-    define('DB_DRIVER', getenv('DB_DRIVER'));
-    define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1');
-    define('DB_PORT', getenv('DB_PORT') ?: '5432');
-    define('DB_NAME', getenv('DB_NAME') ?: 'kasuku_tgs');
-    define('DB_USER', getenv('DB_USER') ?: 'postgres');
-    define('DB_PASS', getenv('DB_PASS') !== false ? getenv('DB_PASS') : 'postgres');
-} elseif (getenv('PGHOST')) {
+} elseif (env('DB_DRIVER')) {
+    define('DB_DRIVER', env('DB_DRIVER'));
+    define('DB_HOST', env('DB_HOST', '127.0.0.1'));
+    define('DB_PORT', env('DB_PORT', '5432'));
+    define('DB_NAME', env('DB_NAME', 'kasuku_tgs'));
+    define('DB_USER', env('DB_USER', 'postgres'));
+    define('DB_PASS', env('DB_PASS', 'postgres'));
+} elseif (env('PGHOST')) {
     define('DB_DRIVER', 'pgsql');
-    define('DB_HOST', getenv('PGHOST') ?: '127.0.0.1');
-    define('DB_PORT', getenv('PGPORT') ?: '5432');
-    define('DB_NAME', getenv('PGDATABASE') ?: 'kasuku_tgs');
-    define('DB_USER', getenv('PGUSER') ?: 'postgres');
-    define('DB_PASS', getenv('PGPASSWORD') ?: '');
+    define('DB_HOST', env('PGHOST', '127.0.0.1'));
+    define('DB_PORT', env('PGPORT', '5432'));
+    define('DB_NAME', env('PGDATABASE', 'kasuku_tgs'));
+    define('DB_USER', env('PGUSER', 'postgres'));
+    define('DB_PASS', env('PGPASSWORD', ''));
 } else {
     define('DB_DRIVER', 'sqlite');
     define('DB_HOST', '127.0.0.1');
