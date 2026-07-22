@@ -5,6 +5,7 @@
  * POST /api/auth/login              { "email", "password" }
  * POST /api/auth/forgot-password    { "email" }
  * POST /api/auth/reset-password     { "token", "password" }
+ * POST /api/auth/change-password    { "current_password", "new_password" }
  */
 
 require_once __DIR__ . '/bootstrap.php';
@@ -97,6 +98,40 @@ if ($action === 'reset-password') {
         ->execute(['id' => $reset['id']]);
 
     json_response(['message' => 'Password has been reset successfully.'], 200);
+}
+
+if ($action === 'change-password') {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        json_error('Method not allowed', 405);
+    }
+
+    $userId = verify_token(get_bearer_token());
+    if ($userId === null) {
+        json_error('Authentication required', 401);
+    }
+
+    $body = request_json();
+    $current = $body['current_password'] ?? '';
+    $new = $body['new_password'] ?? '';
+
+    if ($current === '' || $new === '' || strlen($new) < 6) {
+        json_error('Current password and a new password (min 6 characters) are required', 422);
+    }
+
+    $pdo = db_connect();
+    $stmt = $pdo->prepare('SELECT password FROM users WHERE id = :id LIMIT 1');
+    $stmt->execute(['id' => $userId]);
+    $user = $stmt->fetch();
+
+    if (!$user || !password_verify($current, $user['password'])) {
+        json_error('Current password is incorrect', 401);
+    }
+
+    $hash = password_hash($new, PASSWORD_BCRYPT);
+    $pdo->prepare('UPDATE users SET password = :hash WHERE id = :id')
+        ->execute(['hash' => $hash, 'id' => $userId]);
+
+    json_response(['message' => 'Password updated successfully.'], 200);
 }
 
 // Default: login

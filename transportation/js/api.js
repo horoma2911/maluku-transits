@@ -54,6 +54,7 @@ const API = (function () {
     login: (email, password) => request('POST', '/auth/login', { email, password }),
     forgotPassword: (email) => request('POST', '/auth/forgot-password', { email }),
     resetPassword: (token, password) => request('POST', '/auth/reset-password', { token, password }),
+    changePassword: (current, newPass) => request('POST', '/auth/change-password', { current_password: current, new_password: newPass }),
   };
 })();
 
