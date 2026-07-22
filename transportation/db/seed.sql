@@ -77,7 +77,7 @@ INSERT INTO users (id, name, email, role, status, password, last_login) VALUES
 (3, 'Accountant', 'fin@kasuku.co.tz', 'Accountant', 'active', '$2y$12$d5uJmuYunZ3f3w1LzfG6Tev1gW3k2h0/XAxirKxoENRw/KdX09YjG', '2024-07-14 17:45'),
 (4, 'Dispatcher', 'disp@kasuku.co.tz', 'Dispatcher', 'inactive', '$2y$12$d5uJmuYunZ3f3w1LzfG6Tev1gW3k2h0/XAxirKxoENRw/KdX09YjG', '2024-07-10 14:20');
 
-INSERT INTO activities (id, user, action, time, icon) VALUES
+INSERT INTO activities (id, username, action, time, icon) VALUES
 (1, 'Juma Mwinyi', 'Completed trip TRP-2024-002', '2 hours ago', 'fa-truck-fast'),
 (2, 'Admin User', 'Added new vehicle Z 789 EFG', '3 hours ago', 'fa-car'),
 (3, 'Accountant', 'Processed invoice INV-2024-002', '5 hours ago', 'fa-file-invoice'),
