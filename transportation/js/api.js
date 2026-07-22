@@ -52,6 +52,8 @@ const API = (function () {
     put: (p, b) => request('PUT', p, b),
     del: (p) => request('DELETE', p),
     login: (email, password) => request('POST', '/auth/login', { email, password }),
+    forgotPassword: (email) => request('POST', '/auth/forgot-password', { email }),
+    resetPassword: (token, password) => request('POST', '/auth/reset-password', { token, password }),
   };
 })();
 

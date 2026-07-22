@@ -3,6 +3,7 @@
 
 DROP TABLE IF EXISTS activities;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS password_resets;
 DROP TABLE IF EXISTS payments;
 DROP TABLE IF EXISTS invoices;
 DROP TABLE IF EXISTS expenses;
@@ -129,6 +130,13 @@ CREATE TABLE users (
     status      TEXT DEFAULT 'active',
     password    TEXT,
     last_login  TEXT
+);
+
+CREATE TABLE password_resets (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    email       TEXT NOT NULL,
+    token       TEXT NOT NULL,
+    expires_at  TEXT NOT NULL
 );
 
 CREATE TABLE activities (

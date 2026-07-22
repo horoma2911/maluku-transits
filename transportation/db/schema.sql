@@ -3,6 +3,7 @@
 
 DROP TABLE IF EXISTS activities CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS password_resets CASCADE;
 DROP TABLE IF EXISTS payments CASCADE;
 DROP TABLE IF EXISTS invoices CASCADE;
 DROP TABLE IF EXISTS expenses CASCADE;
@@ -129,6 +130,13 @@ CREATE TABLE users (
     status      VARCHAR(30) DEFAULT 'active',
     password    VARCHAR(255),
     last_login  VARCHAR(50)
+);
+
+CREATE TABLE password_resets (
+    id          SERIAL PRIMARY KEY,
+    email       VARCHAR(150) NOT NULL,
+    token       VARCHAR(255) NOT NULL,
+    expires_at  TIMESTAMP NOT NULL
 );
 
 CREATE TABLE activities (
