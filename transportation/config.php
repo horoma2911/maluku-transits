@@ -24,6 +24,13 @@ if (getenv('DATABASE_URL')) {
     define('DB_NAME', getenv('DB_NAME') ?: 'kasuku_tgs');
     define('DB_USER', getenv('DB_USER') ?: 'postgres');
     define('DB_PASS', getenv('DB_PASS') !== false ? getenv('DB_PASS') : 'postgres');
+} elseif (getenv('PGHOST')) {
+    define('DB_DRIVER', 'pgsql');
+    define('DB_HOST', getenv('PGHOST') ?: '127.0.0.1');
+    define('DB_PORT', getenv('PGPORT') ?: '5432');
+    define('DB_NAME', getenv('PGDATABASE') ?: 'kasuku_tgs');
+    define('DB_USER', getenv('PGUSER') ?: 'postgres');
+    define('DB_PASS', getenv('PGPASSWORD') ?: '');
 } else {
     define('DB_DRIVER', 'sqlite');
     define('DB_HOST', '127.0.0.1');
