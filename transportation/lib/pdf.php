@@ -73,7 +73,7 @@ class PdfReport
 
     private function text(string $text, float $x, float $y, string $font = 'F2', float $size = 8): string
     {
-        return "BT /{$font} {$size} Tf {$x} {$y} Td ({$this->escape($text)}) Tj ET";
+        return "BT /{$font} {$size} Tf 1 0 0 1 " . round($x, 1) . " " . round($y, 1) . " Tm (" . $this->escape($text) . ") Tj ET";
     }
 
     private function rect(float $x, float $y, float $w, float $h, float $gray = 0.85): string
@@ -85,6 +85,18 @@ class PdfReport
     private function line(float $x1, float $y1, float $x2, float $y2, float $gray = 0.5): string
     {
         return "q {$x1} {$y1} m {$x2} {$y2} l {$gray} G S Q";
+    }
+
+    private function drawVerticalLines(float $x, float $yTop, float $yBottom): array
+    {
+        $lines = [];
+        $cx = $x;
+        foreach ($this->colWidths as $cw) {
+            $lines[] = $this->line($cx, $yTop, $cx, $yBottom, 0.35);
+            $cx += $cw;
+        }
+        $lines[] = $this->line($cx, $yTop, $cx, $yBottom, 0.35);
+        return $lines;
     }
 
     private function calculateLayout(): void
@@ -186,7 +198,6 @@ class PdfReport
     {
         $lines = [];
         $cellX = $x;
-        $text = '';
 
         for ($i = $startCol; $i < count($this->columns); $i++) {
             $cell = $row[$i] ?? '';
@@ -201,17 +212,21 @@ class PdfReport
             $display = $this->escape((string)$display);
 
             if ($align === 'right') {
-                $text .= $this->text($display, $cellX + $cw - 4, $y - 11, 'F2', 7);
-                $text .= ' B Tj';
+                $textX = $cellX + $cw - 6;
+                $lines[] = "BT /F2 7 Tf 1 0 0 1 " . round($textX, 1) . " " . round($y - 11, 1) . " Tm (" . $display . ") Tj ET";
             } else {
-                $text .= $this->text($display, $cellX + 4, $y - 11, 'F2', 7);
+                $lines[] = $this->text($display, $cellX + 4, $y - 11, 'F2', 7);
             }
 
             $cellX += $cw;
         }
 
-        $lines[] = $this->line($x, $y, $x + $this->usableW, $y, 0.25);
-        $lines[] = $text;
+        $topY = $y;
+        $bottomY = $y - self::ROW_H;
+        $lines[] = $this->line($x, $topY, $x + $this->usableW, $topY, 0.25);
+        $lines[] = $this->line($x, $bottomY, $x + $this->usableW, $bottomY, 0.25);
+        $lines = array_merge($lines, $this->drawVerticalLines($x, $topY, $bottomY));
+
         return $lines;
     }
 
@@ -235,7 +250,12 @@ class PdfReport
         $amountX -= ($this->colWidths[$colIdx] ?? 0);
         $lines[] = $this->text($amount, $amountX + ($this->colWidths[$colIdx] ?? 0) - 4, $y - 11, 'F1', 8);
 
-        $lines[] = $this->line($x, $y, $x + $this->usableW, $y, 0.5);
+        $topY = $y;
+        $bottomY = $y - self::ROW_H;
+        $lines[] = $this->line($x, $topY, $x + $this->usableW, $topY, 0.5);
+        $lines[] = $this->line($x, $bottomY, $x + $this->usableW, $bottomY, 0.5);
+        $lines = array_merge($lines, $this->drawVerticalLines($x, $topY, $bottomY));
+
         return $lines;
     }
 
