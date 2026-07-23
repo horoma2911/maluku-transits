@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports & Analytics - MALUKU LOGISTICS</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="manifest" href="../pwa/manifest.json">
+  <link rel="icon" href="/icons/icon-192x192.png">
+</head>
+<body>
+  <div class="loader-overlay">
+    <div class="spinner"></div>
+    <p class="text-secondary">Loading reports...</p>
+  </div>
+
+  <div class="app-wrapper">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">K</div>
+        <span class="brand-text">MALUKU</span>
+      </div>
+      <nav class="sidebar-menu">
+        <div class="menu-section">Main</div>
+        <a href="dashboard.html" class="menu-item" data-page="dashboard"><i class="fas fa-th-large"></i><span class="menu-text">Dashboard</span></a>
+        <div class="menu-section">Transport Management</div>
+        <a href="vehicles.html" class="menu-item" data-page="vehicles"><i class="fas fa-car"></i><span class="menu-text">Vehicles</span></a>
+        <a href="trailers.html" class="menu-item" data-page="trailers"><i class="fas fa-trailer"></i><span class="menu-text">Trailers</span></a>
+        <a href="drivers.html" class="menu-item" data-page="drivers"><i class="fas fa-id-card"></i><span class="menu-text">Drivers</span></a>
+        <a href="trips.html" class="menu-item" data-page="trips"><i class="fas fa-route"></i><span class="menu-text">Trips</span></a>
+        <div class="menu-section">General Supply</div>
+        <a href="suppliers.html" class="menu-item" data-page="suppliers"><i class="fas fa-truck-loading"></i><span class="menu-text">Suppliers</span></a>
+        <a href="inventory.html" class="menu-item" data-page="inventory"><i class="fas fa-boxes"></i><span class="menu-text">Inventory</span></a>
+        <a href="purchase-orders.html" class="menu-item" data-page="purchase-orders"><i class="fas fa-file-invoice"></i><span class="menu-text">Purchase Orders</span></a>
+        <div class="menu-section">Finance</div>
+        <a href="expenses.html" class="menu-item" data-page="expenses"><i class="fas fa-receipt"></i><span class="menu-text">Expenses</span></a>
+        <a href="invoices.html" class="menu-item" data-page="invoices"><i class="fas fa-file-invoice-dollar"></i><span class="menu-text">Invoices</span></a>
+        <a href="payments.html" class="menu-item" data-page="payments"><i class="fas fa-money-bill-wave"></i><span class="menu-text">Payments</span></a>
+        <div class="menu-section">Analytics</div>
+        <a href="reports.html" class="menu-item" data-page="reports"><i class="fas fa-chart-bar"></i><span class="menu-text">Reports</span></a>
+        <div class="menu-section">System</div>
+        <a href="users.html" class="menu-item" data-page="users"><i class="fas fa-users"></i><span class="menu-text">Users</span></a>
+        <a href="settings.html" class="menu-item" data-page="settings"><i class="fas fa-cog"></i><span class="menu-text">Settings</span></a>
+        <a href="profile.html" class="menu-item" data-page="profile"><i class="fas fa-user-circle"></i><span class="menu-text">Profile</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="#" class="menu-item" onclick="event.preventDefault(); window.location.href='login.html';"><i class="fas fa-sign-out-alt"></i><span class="menu-text">Logout</span></a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="topbar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar" aria-controls="sidebar" aria-expanded="false"><i class="fas fa-bars"></i></button>
+          <div class="breadcrumb">
+            <a href="#">Home</a>
+            <span class="separator">/</span>
+            <span class="current">Reports</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="topbar-search-toggle" id="topbar-search-toggle" type="button" aria-label="Search"><i class="fas fa-search"></i></button>
+          <div class="topbar-search"><i class="fas fa-search"></i><input type="text" placeholder="Search anything..."></div>
+          <button class="topbar-icon-btn" id="theme-toggle" aria-label="Toggle theme"><i class="fas fa-moon" id="theme-icon"></i></button>
+          <div class="dropdown">
+            <button class="topbar-icon-btn dropdown-toggle" aria-label="Notifications"><i class="fas fa-bell"></i><span class="badge"></span></button>
+            <div class="dropdown-menu">
+              <div class="dropdown-item"><i class="fas fa-truck-fast"></i> Trip completed</div>
+              <div class="dropdown-item"><i class="fas fa-file-invoice"></i> Invoice paid</div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item"><i class="fas fa-check-circle text-success"></i> Mark all as read</div>
+            </div>
+          </div>
+          <div class="dropdown">
+            <div class="topbar-user dropdown-toggle">
+              <div class="avatar">AU</div>
+              <div class="user-info"><span class="user-name">Admin User</span><span class="user-role">Administrator</span></div>
+            </div>
+            <div class="dropdown-menu">
+              <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
+              <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" onclick="event.preventDefault(); window.location.href='login.html';"><i class="fas fa-sign-out-alt text-danger"></i> Logout</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <h1>Reports & Analytics</h1>
+            <p>Performance insights across transport and supply operations.</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-secondary" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+            <button class="btn btn-primary" id="export-btn"><i class="fas fa-download"></i> Export</button>
+          </div>
+        </div>
+
+        <div class="table-toolbar mb-6">
+          <div class="d-flex gap-3 flex-wrap align-end">
+            <div class="form-group mb-0">
+              <label class="form-label">Date From</label>
+              <input type="date" class="form-control" id="date-from" value="2024-01-01">
+            </div>
+            <div class="form-group mb-0">
+              <label class="form-label">Date To</label>
+              <input type="date" class="form-control" id="date-to" value="2024-12-31">
+            </div>
+            <div class="form-group mb-0">
+              <label class="form-label">Report Type</label>
+              <select class="form-control" id="report-type">
+                <option>All</option>
+                <option>Revenue</option>
+                <option>Trips</option>
+                <option>Expenses</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" id="generate-btn"><i class="fas fa-sync"></i> Generate</button>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon green"><i class="fas fa-money-bill-wave"></i></div>
+            <div class="stat-info">
+              <div class="stat-label">Total Revenue (Invoiced)</div>
+              <div class="stat-value" id="rep-revenue">-</div>
+              <div class="stat-change up"><i class="fas fa-arrow-up"></i> invoiced total</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon blue"><i class="fas fa-route"></i></div>
+            <div class="stat-info">
+              <div class="stat-label">Total Trips</div>
+              <div class="stat-value" id="rep-trips">-</div>
+              <div class="stat-change up"><i class="fas fa-arrow-up"></i> all trips</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon orange"><i class="fas fa-receipt"></i></div>
+            <div class="stat-info">
+              <div class="stat-label">Total Expenses</div>
+              <div class="stat-value" id="rep-expenses">-</div>
+              <div class="stat-change down"><i class="fas fa-arrow-down"></i> recorded total</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple"><i class="fas fa-chart-pie"></i></div>
+            <div class="stat-info">
+              <div class="stat-label">Net (Revenue - Expenses)</div>
+              <div class="stat-value" id="rep-net">-</div>
+              <div class="stat-change up"><i class="fas fa-arrow-up"></i> calculated</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 mb-6">
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">Revenue Trend</h3></div>
+            <div class="card-body">
+              <div class="chart-container"><canvas id="revenueChart"></canvas></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">Trips by Month</h3></div>
+            <div class="card-body">
+              <div class="chart-container"><canvas id="tripsChart"></canvas></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">Expense Breakdown</h3></div>
+            <div class="card-body">
+              <div class="chart-container"><canvas id="expenseChart"></canvas></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2">
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">Expense Breakdown</h3></div>
+            <div class="card-body">
+              <div class="table-responsive">
+              <table>
+                <thead><tr><th>Category</th><th>Amount</th><th>Share</th></tr></thead>
+                <tbody id="expense-summary">
+                  <tr><td colspan="3" class="text-center text-secondary">Loading...</td></tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">Payment Status</h3></div>
+            <div class="card-body">
+              <div class="table-responsive">
+              <table>
+                <thead><tr><th>Method</th><th>Count</th><th>Total</th></tr></thead>
+                <tbody id="payment-summary">
+                  <tr><td colspan="3" class="text-center text-secondary">Loading...</td></tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mt-6">
+          <div class="card-header d-flex justify-between align-center">
+            <h3 class="card-title" id="report-table-title">Expenses Report</h3>
+            <span class="text-sm text-secondary" id="report-table-count"></span>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead id="report-table-head"></thead>
+                <tbody id="report-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <span> MALUKU LOGISTICS v1.0</span>
+        <span> Powered by PHP & PostgreSQL</span>
+      </footer>
+    </main>
+  </div>
+
+  <div class="toast-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/theme.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/charts.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/api.js"></script>
+  <script>
+    function parseAmount(val) {
+      if (typeof val === 'number') return val;
+      var n = Number(String(val || '').replace(/[^0-9.\-]/g, ''));
+      return isNaN(n) ? 0 : n;
+    }
+    function setText(id, val) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = val;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      Charts.revenueChart('revenueChart');
+      Charts.tripsChart('tripsChart');
+      loadReports();
+    });
+
+    function loadReports() {
+      Promise.all([
+        API.get('/invoices'),
+        API.get('/trips'),
+        API.get('/expenses'),
+        API.get('/payments')
+      ]).then(function (res) {
+        var invoices = res[0] || [], trips = res[1] || [], expenses = res[2] || [], payments = res[3] || [];
+
+        var revenue = invoices.reduce(function (s, i) { return s + parseAmount(i.amount); }, 0);
+        var expenseTotal = expenses.reduce(function (s, e) { return s + parseAmount(e.amount); }, 0);
+        var net = revenue - expenseTotal;
+
+        setText('rep-revenue', 'TZS ' + Math.round(revenue).toLocaleString('en-TZ'));
+        setText('rep-trips', trips.length);
+        setText('rep-expenses', 'TZS ' + Math.round(expenseTotal).toLocaleString('en-TZ'));
+        setText('rep-net', 'TZS ' + Math.round(net).toLocaleString('en-TZ'));
+
+        // Expense breakdown by category
+        var byCat = {};
+        expenses.forEach(function (e) {
+          var cat = e.category || 'Other';
+          byCat[cat] = (byCat[cat] || 0) + parseAmount(e.amount);
+        });
+        var labels = Object.keys(byCat);
+        var data = labels.map(function (k) { return Math.round(byCat[k]); });
+        var palette = ['#99CC33', '#003333', '#F59E0B', '#3B82F6', '#EF4444', '#8B5CF6', '#10B981'];
+        var colors = labels.map(function (_, i) { return palette[i % palette.length]; });
+
+        if (window.Chart && document.getElementById('expenseChart')) {
+          new Chart(document.getElementById('expenseChart'), {
+            type: 'doughnut',
+            data: { labels: labels, datasets: [{ data: data, backgroundColor: colors, borderWidth: 0, hoverOffset: 4 }] },
+            options: {
+              responsive: true, maintainAspectRatio: false,
+              plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } } },
+              cutout: '65%'
+            }
+          });
+        }
+
+        var sumBody = document.getElementById('expense-summary');
+        if (sumBody) {
+          if (labels.length) {
+            sumBody.innerHTML = labels.map(function (k, i) {
+              var pct = expenseTotal ? Math.round((byCat[k] / expenseTotal) * 100) : 0;
+              return '<tr><td>' + Utils.escapeHtml(k) + '</td><td>TZS ' + Math.round(byCat[k]).toLocaleString('en-TZ') + '</td><td>' + pct + '%</td></tr>';
+            }).join('');
+          } else {
+            sumBody.innerHTML = '<tr><td colspan="3" class="text-center text-secondary">No expenses recorded.</td></tr>';
+          }
+        }
+
+        // Payment summary
+        var byMethod = {};
+        payments.forEach(function (p) {
+          var m = p.method || 'Other';
+          byMethod[m] = (byMethod[m] || 0) + parseAmount(p.amount);
+        });
+        var payBody = document.getElementById('payment-summary');
+        if (payBody) {
+          var payLabels = Object.keys(byMethod);
+          if (payLabels.length) {
+            payBody.innerHTML = payLabels.map(function (m) {
+              return '<tr><td>' + Utils.escapeHtml(m) + '</td><td>' + (payments.filter(function (p) { return p.method === m; }).length) + '</td><td>TZS ' + Math.round(byMethod[m]).toLocaleString('en-TZ') + '</td></tr>';
+            }).join('');
+          } else {
+            payBody.innerHTML = '<tr><td colspan="3" class="text-center text-secondary">No payments recorded.</td></tr>';
+          }
+        }
+
+        // Store data for report table
+        window._reportData = { invoices: invoices, trips: trips, expenses: expenses, payments: payments };
+        renderReportTable();
+      }).catch(function (err) {
+        if (err.status === 401) { window.location.href = 'login.html'; }
+      });
+
+      document.getElementById('generate-btn').addEventListener('click', () => {
+        Utils.showLoader();
+        setTimeout(() => {
+          Utils.hideLoader();
+          Utils.toast('Report generated for selected range', 'success');
+          renderReportTable();
+        }, 800);
+      });
+
+      document.getElementById('report-type').addEventListener('change', renderReportTable);
+
+      document.getElementById('export-btn').addEventListener('click', () => {
+        const from = document.getElementById('date-from').value;
+        const to = document.getElementById('date-to').value;
+        const reportType = document.getElementById('report-type').value;
+        let resource = 'invoices';
+        if (reportType === 'Trips') resource = 'trips';
+        else if (reportType === 'Expenses') resource = 'expenses';
+        else if (reportType === 'Revenue') resource = 'invoices';
+        const url = '/api/report?resource=' + resource + '&from=' + from + '&to=' + to;
+        Utils.downloadPdf(url);
+      });
+    }
+
+    function renderReportTable() {
+      var type = document.getElementById('report-type').value;
+      var data = window._reportData || {};
+      var rows = [], headers = [], title = '';
+
+      if (type === 'Expenses') {
+        title = 'Expenses Report';
+        headers = ['Ref', 'Category', 'Amount', 'Date', 'Trip', 'Status'];
+        rows = (data.expenses || []).map(function (e) {
+          return [e.ref || '-', e.category || '-', e.amount || '0', e.date || '-', e.trip || '-', e.status || '-'];
+        });
+      } else if (type === 'Trips') {
+        title = 'Trips Report';
+        headers = ['Ref', 'Origin', 'Destination', 'Vehicle', 'Driver', 'Date', 'Status'];
+        rows = (data.trips || []).map(function (t) {
+          return [t.ref || '-', t.origin || '-', t.destination || '-', t.vehicle || '-', t.driver || '-', t.date || '-', t.status || '-'];
+        });
+      } else if (type === 'Revenue') {
+        title = 'Revenue Report';
+        headers = ['Ref', 'Client', 'Date', 'Amount', 'Due', 'Status'];
+        rows = (data.invoices || []).map(function (i) {
+          return [i.ref || '-', i.client || '-', i.date || '-', i.amount || '0', i.due || '-', i.status || '-'];
+        });
+      } else {
+        title = 'All Records Report';
+        headers = ['Type', 'Ref', 'Description', 'Amount', 'Date', 'Status'];
+        rows = [];
+        (data.invoices || []).forEach(function (i) {
+          rows.push(['Invoice', i.ref || '-', i.client || '-', i.amount || '0', i.date || '-', i.status || '-']);
+        });
+        (data.expenses || []).forEach(function (e) {
+          rows.push(['Expense', e.ref || '-', e.category || '-', e.amount || '0', e.date || '-', e.status || '-']);
+        });
+        (data.trips || []).forEach(function (t) {
+          rows.push(['Trip', t.ref || '-', t.origin + ' → ' + t.destination, '-', t.date || '-', t.status || '-']);
+        });
+      }
+
+      document.getElementById('report-table-title').textContent = title;
+      document.getElementById('report-table-count').textContent = rows.length + ' record' + (rows.length !== 1 ? 's' : '');
+
+      var thead = document.getElementById('report-table-head');
+      thead.innerHTML = '<tr>' + headers.map(function (h) { return '<th>' + Utils.escapeHtml(h) + '</th>'; }).join('') + '</tr>';
+
+      var tbody = document.getElementById('report-table-body');
+      if (rows.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="' + headers.length + '" class="text-center text-secondary">No records found for the selected range.</td></tr>';
+      } else {
+        tbody.innerHTML = rows.map(function (r) {
+          return '<tr>' + r.map(function (c) { return '<td>' + Utils.escapeHtml(c) + '</td>'; }).join('') + '</tr>';
+        }).join('');
+      }
+    }
+  </script>
+</body>
+</html>

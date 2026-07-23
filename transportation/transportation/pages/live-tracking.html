@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Tracking - MALUKU LOGISTICS</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="manifest" href="../pwa/manifest.json">
+  <link rel="icon" href="/icons/icon-192x192.png">
+  <style>
+    .tracking-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 18px;
+      padding: 40px 24px;
+    }
+    .tracking-icon {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 34px;
+      color: var(--secondary);
+      background: var(--primary);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+    .tracking-card p {
+      max-width: 520px;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+    .tracking-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+    @media (max-width: 768px) {
+      .tracking-actions .btn { width: 100%; justify-content: center; }
+      .tracking-card { padding: 28px 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-wrapper">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">K</div>
+        <span class="brand-text">MALUKU</span>
+      </div>
+      <nav class="sidebar-menu">
+        <div class="menu-section">Main</div>
+        <a href="dashboard.html" class="menu-item" data-page="dashboard"><i class="fas fa-th-large"></i><span class="menu-text">Dashboard</span></a>
+        <div class="menu-section">Transport Management</div>
+        <a href="vehicles.html" class="menu-item" data-page="vehicles"><i class="fas fa-car"></i><span class="menu-text">Vehicles</span></a>
+        <a href="trailers.html" class="menu-item" data-page="trailers"><i class="fas fa-trailer"></i><span class="menu-text">Trailers</span></a>
+        <a href="drivers.html" class="menu-item" data-page="drivers"><i class="fas fa-id-card"></i><span class="menu-text">Drivers</span></a>
+        <a href="trips.html" class="menu-item" data-page="trips"><i class="fas fa-route"></i><span class="menu-text">Trips</span></a>
+        <a href="live-tracking.html" class="menu-item" data-page="live-tracking"><i class="fas fa-location-crosshairs"></i><span class="menu-text">Live Tracking</span></a>
+        <div class="menu-section">General Supply</div>
+        <a href="suppliers.html" class="menu-item" data-page="suppliers"><i class="fas fa-truck-loading"></i><span class="menu-text">Suppliers</span></a>
+        <a href="inventory.html" class="menu-item" data-page="inventory"><i class="fas fa-boxes"></i><span class="menu-text">Inventory</span></a>
+        <a href="purchase-orders.html" class="menu-item" data-page="purchase-orders"><i class="fas fa-file-invoice"></i><span class="menu-text">Purchase Orders</span></a>
+        <div class="menu-section">Finance</div>
+        <a href="expenses.html" class="menu-item" data-page="expenses"><i class="fas fa-receipt"></i><span class="menu-text">Expenses</span></a>
+        <a href="invoices.html" class="menu-item" data-page="invoices"><i class="fas fa-file-invoice-dollar"></i><span class="menu-text">Invoices</span></a>
+        <a href="payments.html" class="menu-item" data-page="payments"><i class="fas fa-money-bill-wave"></i><span class="menu-text">Payments</span></a>
+        <div class="menu-section">Analytics</div>
+        <a href="reports.html" class="menu-item" data-page="reports"><i class="fas fa-chart-bar"></i><span class="menu-text">Reports</span></a>
+        <div class="menu-section">System</div>
+        <a href="users.html" class="menu-item" data-page="users"><i class="fas fa-users"></i><span class="menu-text">Users</span></a>
+        <a href="settings.html" class="menu-item" data-page="settings"><i class="fas fa-cog"></i><span class="menu-text">Settings</span></a>
+        <a href="profile.html" class="menu-item" data-page="profile"><i class="fas fa-user-circle"></i><span class="menu-text">Profile</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="#" class="menu-item" onclick="event.preventDefault(); window.location.href='login.html';"><i class="fas fa-sign-out-alt"></i><span class="menu-text">Logout</span></a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="topbar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar" aria-controls="sidebar" aria-expanded="false"><i class="fas fa-bars"></i></button>
+          <div class="breadcrumb">
+            <a href="#">Home</a>
+            <span class="separator">/</span>
+            <span class="current">Live Tracking</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="topbar-search-toggle" id="topbar-search-toggle" type="button" aria-label="Search"><i class="fas fa-search"></i></button>
+          <div class="topbar-search"><i class="fas fa-search"></i><input type="text" placeholder="Search anything..."></div>
+          <button class="topbar-icon-btn" id="theme-toggle" aria-label="Toggle theme"><i class="fas fa-moon" id="theme-icon"></i></button>
+          <div class="dropdown">
+            <button class="topbar-icon-btn dropdown-toggle" aria-label="Notifications"><i class="fas fa-bell"></i><span class="badge"></span></button>
+            <div class="dropdown-menu">
+              <div class="dropdown-item"><i class="fas fa-truck-fast"></i> Trip completed</div>
+              <div class="dropdown-item"><i class="fas fa-file-invoice"></i> Invoice paid</div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item"><i class="fas fa-check-circle text-success"></i> Mark all as read</div>
+            </div>
+          </div>
+          <div class="dropdown">
+            <div class="topbar-user dropdown-toggle">
+              <div class="avatar">AU</div>
+              <div class="user-info"><span class="user-name">Admin User</span><span class="user-role">Administrator</span></div>
+            </div>
+            <div class="dropdown-menu">
+              <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
+              <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" onclick="event.preventDefault(); window.location.href='login.html';"><i class="fas fa-sign-out-alt text-danger"></i> Logout</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <div class="page-header">
+          <h1>Live Tracking</h1>
+          <p>Monitor your fleet in real time and open the GPS tracking console.</p>
+          <div class="page-header-actions">
+            <button class="btn btn-primary" id="open-tracking-btn" data-tracking-action>
+              <i class="fas fa-location-crosshairs"></i> Open Live Tracking
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Fleet Tracking</h3>
+          </div>
+          <div class="card-body">
+            <div class="tracking-card">
+              <div class="tracking-icon"><i class="fas fa-location-crosshairs"></i></div>
+              <h2>Real-Time GPS Tracking</h2>
+              <p>Launch the live tracking console to view vehicle positions, routes, and driver status across your entire fleet. Click the button below to open the tracking module in a new tab.</p>
+              <div class="tracking-actions">
+                <button class="btn btn-primary" id="open-tracking-btn-2" data-tracking-action>
+                  <i class="fas fa-location-crosshairs"></i> Open Live Tracking
+                </button>
+                <a href="dashboard.html" class="btn btn-secondary">
+                  <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <span> MALUKU LOGISTICS v1.0</span>
+        <span> Powered by PHP & PostgreSQL</span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/theme.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    (function () {
+      var TRACKING_URL = 'https://at.utrackafrica.com/';
+      function openTracking() {
+        window.open(TRACKING_URL, '_blank', 'noopener,noreferrer');
+      }
+      var btns = document.querySelectorAll('[data-tracking-action]');
+      btns.forEach(function (btn) {
+        btn.addEventListener('click', openTracking);
+      });
+    })();
+  </script>
+</body>
+</html>
