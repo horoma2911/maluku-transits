@@ -13,7 +13,7 @@
   <div class="app-wrapper">
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-brand">
-        <div class="brand-icon">K</div>
+        <div class="brand-icon">M</div>
         <span class="brand-text">MALUKU</span>
       </div>
       <nav class="sidebar-menu">
@@ -252,6 +252,9 @@
   <script src="../js/api.js"></script>
   <script>
     let customersData = [];
+
+    function renderCustomers(data) {
+      customersData = data;
       const tbody = document.querySelector('#customersTable tbody');
       tbody.innerHTML = '';
       data.forEach(customer => {
