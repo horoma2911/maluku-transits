@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports & Analytics - MALUKU LOGISTICS</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="manifest" href="../pwa/manifest.json">
+  <link rel="icon" href="/icons/icon-192x192.png">
+  <style>
+    .report-header-section {
+      background: linear-gradient(135deg, #003333 0%, #004d4d 100%);
+      color: #fff;
+      padding: 24px 28px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .report-header-section .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .report-header-section .brand-icon {
+      width: 48px;
+      height: 48px;
+      background: #99CC33;
+      color: #003333;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+    }
+    .report-header-section .brand-text h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .report-header-section .brand-text p {
+      margin: 2px 0 0;
+      font-size: 12px;
+      opacity: 0.85;
+    }
+    .report-header-section .header-meta {
+      text-align: right;
+      font-size: 12px;
+      opacity: 0.9;
+      line-height: 1.7;
+    }
+    .report-header-section .header-meta strong {
+      color: #99CC33;
+      font-weight: 600;
+    }
+
+    .report-filters {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-end;
+    }
+    .report-filters .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .report-filters .filter-group label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .report-filters .form-control {
+      min-width: 140px;
+    }
+    .report-filters .filter-actions {
+      display: flex;
+      gap: 8px;
+      margin-left: auto;
+    }
+
+    .report-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .report-summary-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: box-shadow 0.2s;
+    }
+    .report-summary-card:hover {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .report-summary-card .sum-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .report-summary-card .sum-icon.green { background: #f0fdf4; color: #16a34a; }
+    .report-summary-card .sum-icon.blue { background: #eff6ff; color: #2563eb; }
+    .report-summary-card .sum-icon.orange { background: #fff7ed; color: #ea580c; }
+    .report-summary-card .sum-icon.purple { background: #faf5ff; color: #9333ea; }
+    .report-summary-card .sum-icon.red { background: #fef2f2; color: #dc2626; }
+    .report-summary-card .sum-icon.teal { background: #f0fdfa; color: #0d9488; }
+    .report-summary-card .sum-info .sum-label {
+      font-size: 11px;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+    .report-summary-card .sum-info .sum-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: #111827;
+      margin-top: 2px;
+    }
+
+    .report-section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #374151;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 20px 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .report-table-wrapper {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .report-table-wrapper .table-header-bar {
+      background: #f9fafb;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .report-table-wrapper .table-header-bar h3 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: #111827;
+    }
+    .report-table-wrapper .table-header-bar .record-count {
+      font-size: 12px;
+      color: #6b7280;
+      background: #f3f4f6;
+      padding: 2px 10px;
+      border-radius: 12px;
+    }
+    .report-table-wrapper table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      table-layout: fixed;
+    }
+    .report-table-wrapper table thead th {
+      background: #003333;
+      color: #fff;
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 11px 14px;
+      border-bottom: 2px solid #99CC33;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .report-table-wrapper table thead th.right { text-align: right; }
+    .report-table-wrapper table thead th.center { text-align: center; }
+    .report-table-wrapper table tbody td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #e5e7eb;
+      color: #374151;
+      vertical-align: middle;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 0;
+    }
+    .report-table-wrapper table tbody tr:nth-child(even) { background: #f8faf9; }
+    .report-table-wrapper table tbody tr:hover { background: #f0fdf4; }
+    .report-table-wrapper table tbody td.right { text-align: right; font-variant-numeric: tabular-nums; }
+    .report-table-wrapper table tbody td.center { text-align: center; }
+    .report-table-wrapper table tbody td.wrap { white-space: normal; word-wrap: break-word; }
+    .report-table-wrapper table tfoot td {
+      padding: 11px 14px;
+      border-top: 2px solid #003333;
+      font-weight: 700;
+      background: #f0fdf4;
+      color: #003333;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 0;
+    }
+    .report-table-wrapper table tfoot td.right { text-align: right; }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    .badge-success { background: #dcfce7; color: #166534; }
+    .badge-warning { background: #fef3c7; color: #92400e; }
+    .badge-danger { background: #fee2e2; color: #991b1b; }
+    .badge-info { background: #dbeafe; color: #1e40af; }
+    .badge-secondary { background: #f3f4f6; color: #4b5563; }
+
+    .report-actions-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    @media print {
+      .sidebar, .topbar, .report-filters, .report-actions-bar { display: none !important; }
+      .main-content { margin-left: 0 !important; }
+      .report-header-section { border-radius: 0; }
+      .report-table-wrapper { border: 1px solid #ccc; }
+      body { font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="loader-overlay hidden">
+    <div class="spinner"></div>
+    <p class="text-secondary">Loading reports...</p>
+  </div>
+
+  <div class="app-wrapper">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">K</div>
+        <span class="brand-text">MALUKU</span>
+      </div>
+      <nav class="sidebar-menu">
+        <div class="menu-section">Main</div>
+        <a href="dashboard.html" class="menu-item" data-page="dashboard"><i class="fas fa-th-large"></i><span class="menu-text">Dashboard</span></a>
+        <div class="menu-section">Transport Management</div>
+        <a href="vehicles.html" class="menu-item" data-page="vehicles"><i class="fas fa-car"></i><span class="menu-text">Vehicles</span></a>
+        <a href="trailers.html" class="menu-item" data-page="trailers"><i class="fas fa-trailer"></i><span class="menu-text">Trailers</span></a>
+        <a href="drivers.html" class="menu-item" data-page="drivers"><i class="fas fa-id-card"></i><span class="menu-text">Drivers</span></a>
+        <a href="trips.html" class="menu-item" data-page="trips"><i class="fas fa-route"></i><span class="menu-text">Trips</span></a>
+        <div class="menu-section">General Supply</div>
+        <a href="suppliers.html" class="menu-item" data-page="suppliers"><i class="fas fa-truck-loading"></i><span class="menu-text">Suppliers</span></a>
+        <a href="inventory.html" class="menu-item" data-page="inventory"><i class="fas fa-boxes"></i><span class="menu-text">Inventory</span></a>
+        <a href="purchase-orders.html" class="menu-item" data-page="purchase-orders"><i class="fas fa-file-invoice"></i><span class="menu-text">Purchase Orders</span></a>
+        <div class="menu-section">Finance</div>
+        <a href="expenses.html" class="menu-item" data-page="expenses"><i class="fas fa-receipt"></i><span class="menu-text">Expenses</span></a>
+        <a href="invoices.html" class="menu-item" data-page="invoices"><i class="fas fa-file-invoice-dollar"></i><span class="menu-text">Invoices</span></a>
+        <a href="payments.html" class="menu-item" data-page="payments"><i class="fas fa-money-bill-wave"></i><span class="menu-text">Payments</span></a>
+        <div class="menu-section">Analytics</div>
+        <a href="reports.html" class="menu-item active" data-page="reports"><i class="fas fa-chart-bar"></i><span class="menu-text">Reports</span></a>
+        <div class="menu-section">System</div>
+        <a href="users.html" class="menu-item" data-page="users"><i class="fas fa-users"></i><span class="menu-text">Users</span></a>
+        <a href="settings.html" class="menu-item" data-page="settings"><i class="fas fa-cog"></i><span class="menu-text">Settings</span></a>
+        <a href="profile.html" class="menu-item" data-page="profile"><i class="fas fa-user-circle"></i><span class="menu-text">Profile</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="#" class="menu-item" onclick="event.preventDefault(); window.location.href='login.html';"><i class="fas fa-sign-out-alt"></i><span class="menu-text">Logout</span></a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="topbar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar" aria-controls="sidebar" aria-expanded="false"><i class="fas fa-bars"></i></button>
+          <div class="breadcrumb">
+            <a href="#">Home</a>
+            <span class="separator">/</span>
+            <span class="current">Reports & Analytics</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="topbar-search-toggle" id="topbar-search-toggle" type="button" aria-label="Search"><i class="fas fa-search"></i></button>
+          <div class="topbar-search"><i class="fas fa-search"></i><input type="text" placeholder="Search anything..."></div>
+          <button class="topbar-icon-btn" id="theme-toggle" aria-label="Toggle theme"><i class="fas fa-moon" id="theme-icon"></i></button>
+          <div class="dropdown">
+            <button class="topbar-icon-btn dropdown-toggle" aria-label="Notifications"><i class="fas fa-bell"></i><span class="badge"></span></button>
+            <div class="dropdown-menu">
+              <div class="dropdown-item"><i class="fas fa-truck-fast"></i> Trip completed</div>
+              <div class="dropdown-item"><i class="fas fa-file-invoice"></i> Invoice paid</div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item"><i class="fas fa-check-circle text-success"></i> Mark all as read</div>
+            </div>
+          </div>
+          <div class="dropdown">
+            <div class="topbar-user dropdown-toggle">
+              <div class="avatar">AU</div>
+              <div class="user-info"><span class="user-name">Admin User</span><span class="user-role">Administrator</span></div>
+            </div>
+            <div class="dropdown-menu">
+              <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
+              <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" onclick="event.preventDefault(); window.location.href='login.html';"><i class="fas fa-sign-out-alt text-danger"></i> Logout</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <div class="report-header-section">
+          <div class="brand">
+            <div class="brand-icon">K</div>
+            <div class="brand-text">
+              <h2>MALUKU LOGISTICS</h2>
+              <p>Transit & General Supply Management System</p>
+            </div>
+          </div>
+          <div class="header-meta">
+            <div><strong>Report:</strong> <span id="meta-title">Operations Report</span></div>
+            <div><strong>Period:</strong> <span id="meta-period">2026-01-01 to 2026-12-31</span></div>
+            <div><strong>Generated:</strong> <span id="meta-generated"></span></div>
+            <div><strong>Generated By:</strong> <span id="meta-user">Admin User</span></div>
+          </div>
+        </div>
+
+        <div class="report-actions-bar">
+          <button type="button" class="btn btn-secondary" id="print-btn" onclick="window.print()"><i class="fas fa-print"></i> Print Report</button>
+          <button class="btn btn-primary" id="export-pdf-btn"><i class="fas fa-file-pdf"></i> Export PDF</button>
+          <button class="btn btn-secondary" id="export-xlsx-btn"><i class="fas fa-file-excel"></i> Export Excel</button>
+          <button class="btn btn-secondary" id="export-csv-btn"><i class="fas fa-file-csv"></i> Export CSV</button>
+        </div>
+
+        <div class="report-filters">
+          <div class="filter-group">
+            <label>Date From</label>
+            <input type="date" class="form-control" id="date-from" value="2026-01-01">
+          </div>
+          <div class="filter-group">
+            <label>Date To</label>
+            <input type="date" class="form-control" id="date-to" value="2026-12-31">
+          </div>
+          <div class="filter-group">
+            <label>Report Type</label>
+            <select class="form-control" id="report-type">
+              <option value="all">All Records</option>
+              <option value="revenue">Revenue</option>
+              <option value="trips">Trips</option>
+              <option value="expenses" selected>Expenses</option>
+              <option value="vehicles">Vehicles</option>
+              <option value="drivers">Drivers</option>
+              <option value="customers">Customers</option>
+              <option value="payments">Payments</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>Status</label>
+            <select class="form-control" id="filter-status">
+              <option value="">All Statuses</option>
+              <option value="active">Active</option>
+              <option value="pending">Pending</option>
+              <option value="completed">Completed</option>
+              <option value="approved">Approved</option>
+              <option value="paid">Paid</option>
+              <option value="in_transit">In Transit</option>
+              <option value="cancelled">Cancelled</option>
+              <option value="overdue">Overdue</option>
+              <option value="maintenance">Maintenance</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+          <div class="filter-actions">
+            <button class="btn btn-primary" id="generate-btn"><i class="fas fa-sync"></i> Generate</button>
+          </div>
+        </div>
+
+        <div class="report-summary-grid" id="summary-grid"></div>
+
+        <div class="grid grid-cols-2 mb-6" id="charts-section">
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">Revenue vs Expenses</h3></div>
+            <div class="card-body">
+              <div class="chart-container"><canvas id="revenueExpenseChart"></canvas></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">Expense Breakdown</h3></div>
+            <div class="card-body">
+              <div class="chart-container"><canvas id="expenseBreakdownChart"></canvas></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">Trips by Month</h3></div>
+            <div class="card-body">
+              <div class="chart-container"><canvas id="tripsByMonthChart"></canvas></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3 class="card-title">Invoice Status</h3></div>
+            <div class="card-body">
+              <div class="chart-container"><canvas id="invoiceStatusChart"></canvas></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="report-section-title" id="table-section-title">Expenses Report</div>
+        <div class="report-table-wrapper">
+          <div class="table-header-bar">
+            <h3 id="report-table-title">Detailed Records</h3>
+            <span class="record-count" id="report-table-count">0 records</span>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead id="report-table-head"></thead>
+              <tbody id="report-table-body"></tbody>
+              <tfoot id="report-table-foot"></tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <span> MALUKU LOGISTICS</span>
+        <span></span>
+      </footer>
+    </main>
+  </div>
+
+  <div class="toast-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/theme.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/charts.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/api.js"></script>
+  <script>
+    function parseAmount(val) {
+      if (typeof val === 'number') return val;
+      var n = Number(String(val || '').replace(/[^0-9.\-]/g, ''));
+      return isNaN(n) ? 0 : n;
+    }
+    function fmt(n) { return 'TZS ' + Math.round(n).toLocaleString('en-TZ'); }
+    function setText(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; }
+    function badgeClass(status) {
+      if (!status) return 'badge-secondary';
+      var s = String(status).toLowerCase();
+      if (s === 'active' || s === 'completed' || s === 'paid' || s === 'approved' || s === 'in_stock' || s === 'delivered') return 'badge-success';
+      if (s === 'pending' || s === 'in_transit') return 'badge-warning';
+      if (s === 'cancelled' || s === 'inactive' || s === 'overdue' || s === 'out_of_stock') return 'badge-danger';
+      if (s === 'maintenance' || s === 'on_leave' || s === 'low_stock') return 'badge-info';
+      return 'badge-secondary';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      var userRaw = sessionStorage.getItem('auth_user') || '';
+      if (userRaw) {
+        try {
+          var u = JSON.parse(userRaw);
+          setText('meta-user', (u.name || 'Admin User'));
+        } catch (e) {}
+      }
+      setText('meta-generated', new Date().toLocaleString('en-TZ'));
+      loadReports();
+
+      document.getElementById('print-btn').addEventListener('click', () => window.print());
+      document.getElementById('generate-btn').addEventListener('click', () => {
+        Utils.showLoader();
+        setTimeout(() => { Utils.hideLoader(); loadReports(); Utils.toast('Report refreshed', 'success'); }, 600);
+      });
+
+      document.getElementById('export-pdf-btn').addEventListener('click', () => {
+        var from = document.getElementById('date-from').value;
+        var to = document.getElementById('date-to').value;
+        var type = document.getElementById('report-type').value;
+        var resource = 'invoices';
+        if (type === 'trips') resource = 'trips';
+        else if (type === 'expenses') resource = 'expenses';
+        else if (type === 'vehicles') resource = 'vehicles';
+        else if (type === 'drivers') resource = 'drivers';
+        else if (type === 'customers') resource = 'customers';
+        else if (type === 'payments') resource = 'payments';
+        var filename = resource + '.pdf';
+        if (from && to) {
+          var fromParts = from.split('-');
+          var toParts = to.split('-');
+          if (fromParts[0] === toParts[0] && fromParts[1] === toParts[1]) {
+            filename = resource + '-' + from.substring(0, 7) + '.pdf';
+          } else {
+            filename = resource + '-' + from + '-to-' + to + '.pdf';
+          }
+        }
+        var url = '/api/report?resource=' + resource + '&from=' + from + '&to=' + to + '&filename=' + encodeURIComponent(filename);
+        var token = sessionStorage.getItem('auth_token') || '';
+        if (!token) {
+          window.location.href = '../login.html';
+          return;
+        }
+        Utils.showLoader();
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+        xhr.responseType = 'blob';
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            try {
+              var blob = xhr.response;
+              var blobUrl = URL.createObjectURL(blob);
+              var a = document.createElement('a');
+              a.href = blobUrl;
+              a.download = filename;
+              document.body.appendChild(a);
+              a.click();
+              setTimeout(function() {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(blobUrl);
+              }, 1000);
+            } catch (e) {
+              console.error('PDF download error:', e);
+              Utils.toast('Failed to download PDF. Please try again.', 'error');
+            }
+          } else {
+            Utils.toast('Failed to download PDF (HTTP ' + xhr.status + ')', 'error');
+          }
+          Utils.hideLoader();
+        };
+        xhr.onerror = function() {
+          Utils.toast('Failed to download PDF. Check your network connection.', 'error');
+          Utils.hideLoader();
+        };
+        xhr.send();
+      });
+
+      document.getElementById('export-xlsx-btn').addEventListener('click', () => {
+        var from = document.getElementById('date-from').value;
+        var to = document.getElementById('date-to').value;
+        var type = document.getElementById('report-type').value;
+        var resource = 'invoices';
+        if (type === 'trips') resource = 'trips';
+        else if (type === 'expenses') resource = 'expenses';
+        else if (type === 'vehicles') resource = 'vehicles';
+        else if (type === 'drivers') resource = 'drivers';
+        else if (type === 'customers') resource = 'customers';
+        else if (type === 'payments') resource = 'payments';
+        var filename = resource + '.xlsx';
+        if (from && to) {
+          var fromParts = from.split('-');
+          var toParts = to.split('-');
+          if (fromParts[0] === toParts[0] && fromParts[1] === toParts[1]) {
+            filename = resource + '-' + from.substring(0, 7) + '.xlsx';
+          } else {
+            filename = resource + '-' + from + '-to-' + to + '.xlsx';
+          }
+        }
+        var url = '/api/report?resource=' + resource + '&from=' + from + '&to=' + to + '&format=xlsx&filename=' + encodeURIComponent(filename);
+        Utils.downloadFile(url);
+      });
+
+      document.getElementById('export-csv-btn').addEventListener('click', () => {
+        var type = document.getElementById('report-type').value;
+        var data = window._reportData || {};
+        var rows = [], headers = [];
+        if (type === 'expenses') {
+          headers = ['Ref','Category','Amount','Date','Trip Ref','Status'];
+          (data.expenses||[]).forEach(function(e){ rows.push([e.ref,e.category,e.amount,e.date,e.trip,e.status]); });
+        } else if (type === 'trips') {
+          headers = ['Ref','Origin','Destination','Vehicle','Driver','Date','Status'];
+          (data.trips||[]).forEach(function(t){ rows.push([t.ref,t.origin,t.destination,t.vehicle,t.driver,t.date,t.status]); });
+        } else if (type === 'revenue') {
+          headers = ['Ref','Client','Date','Amount','Due Date','Status'];
+          (data.invoices||[]).forEach(function(i){ rows.push([i.ref,i.client,i.date,i.amount,i.due,i.status]); });
+        } else if (type === 'vehicles') {
+          headers = ['Plate','Make','Model','Year','Capacity','Status','Driver'];
+          (data.vehicles||[]).forEach(function(v){ rows.push([v.plate,v.make,v.model,v.year,v.capacity,v.status,v.driver]); });
+        } else if (type === 'drivers') {
+          headers = ['Name','Phone','License','Trips','Status'];
+          (data.drivers||[]).forEach(function(d){ rows.push([d.name,d.phone,d.license,d.trips,d.status]); });
+        } else if (type === 'customers') {
+          headers = ['Name','Email','Phone','Total Trips','Status'];
+          (data.customers||[]).forEach(function(c){ rows.push([c.name,c.email,c.phone,c.total_trips,c.status]); });
+        } else if (type === 'payments') {
+          headers = ['Ref','Method','Amount','Date','Status'];
+          (data.payments||[]).forEach(function(p){ rows.push([p.ref,p.method,p.amount,p.date,p.status]); });
+        } else {
+          headers = ['Type','Ref','Description','Amount','Date','Status'];
+          (data.invoices||[]).forEach(function(i){ rows.push(['Invoice',i.ref,i.client,i.amount,i.date,i.status]); });
+          (data.expenses||[]).forEach(function(e){ rows.push(['Expense',e.ref,e.category,e.amount,e.date,e.status]); });
+          (data.trips||[]).forEach(function(t){ rows.push(['Trip',t.ref,t.origin+' to '+t.destination,'-',t.date,t.status]); });
+          (data.payments||[]).forEach(function(p){ rows.push(['Payment',p.ref,p.method,p.amount,p.date,p.status]); });
+        }
+        if (!rows.length) { Utils.toast('No data to export','error'); return; }
+        var csv = headers.map(function(h){ return '"'+h+'"'; }).join(',') + '\n';
+        rows.forEach(function(r){ csv += r.map(function(c){ return '"'+(c||'')+'"'; }).join(',') + '\n'; });
+        var blob = new Blob([csv], { type: 'text/csv' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+        a.download = (type||'report') + '_export.csv'; a.click();
+        Utils.toast('CSV exported','success');
+      });
+    });
+
+    function loadReports() {
+      var type = document.getElementById('report-type').value;
+      var statusFilter = document.getElementById('filter-status').value;
+      Utils.showLoader();
+      var endpoints = ['/invoices', '/trips', '/expenses', '/payments', '/vehicles', '/drivers', '/customers'];
+      Promise.all(endpoints.map(function(p){ return API.get(p).catch(function(){ return []; }); })).then(function(res) {
+        var invoices = res[0]||[], trips = res[1]||[], expenses = res[2]||[], payments = res[3]||[], vehicles = res[4]||[], drivers = res[5]||[], customers = res[6]||[];
+        if (statusFilter) {
+          var sf = statusFilter.toLowerCase();
+          invoices = invoices.filter(function(r){ return (r.status||'').toLowerCase() === sf; });
+          trips = trips.filter(function(r){ return (r.status||'').toLowerCase() === sf; });
+          expenses = expenses.filter(function(r){ return (r.status||'').toLowerCase() === sf; });
+          payments = payments.filter(function(r){ return (r.status||'').toLowerCase() === sf; });
+          vehicles = vehicles.filter(function(r){ return (r.status||'').toLowerCase() === sf; });
+          drivers = drivers.filter(function(r){ return (r.status||'').toLowerCase() === sf; });
+          customers = customers.filter(function(r){ return (r.status||'').toLowerCase() === sf; });
+        }
+        window._reportData = { invoices: invoices, trips: trips, expenses: expenses, payments: payments, vehicles: vehicles, drivers: drivers, customers: customers };
+        renderSummary(type, invoices, trips, expenses, payments, vehicles, drivers, customers);
+        renderTable(type);
+        renderCharts(invoices, trips, expenses);
+        Utils.hideLoader();
+      }).catch(function(err) {
+        Utils.hideLoader();
+        if (err.status === 401) window.location.href = 'login.html';
+      });
+    }
+
+    function renderSummary(type, invoices, trips, expenses, payments, vehicles, drivers, customers) {
+      var revenue = invoices.reduce(function(s,i){ return s + parseAmount(i.amount); }, 0);
+      var expenseTotal = expenses.reduce(function(s,e){ return s + parseAmount(e.amount); }, 0);
+      var net = revenue - expenseTotal;
+      var paidInvoices = invoices.filter(function(i){ return (i.status||'').toLowerCase() === 'paid'; });
+      var paidTotal = paidInvoices.reduce(function(s,i){ return s + parseAmount(i.amount); }, 0);
+      var outstanding = invoices.filter(function(i){ var s=(i.status||'').toLowerCase(); return s==='pending'||s==='overdue'; });
+      var outstandingTotal = outstanding.reduce(function(s,i){ return s + parseAmount(i.amount); }, 0);
+      var paymentTotal = payments.reduce(function(s,p){ return s + parseAmount(p.amount); }, 0);
+      var activeVehicles = vehicles.filter(function(v){ return (v.status||'').toLowerCase()==='active'; }).length;
+      var activeDrivers = drivers.filter(function(d){ return (d.status||'').toLowerCase()==='active'; }).length;
+
+      var cards = [];
+      if (type === 'revenue' || type === 'all') {
+        cards.push({ icon: 'fa-money-bill-wave', color: 'green', label: 'Total Revenue', value: fmt(revenue) });
+        cards.push({ icon: 'fa-check-circle', color: 'teal', label: 'Paid Invoices', value: fmt(paidTotal) });
+        cards.push({ icon: 'fa-clock', color: 'red', label: 'Outstanding', value: fmt(outstandingTotal) });
+      }
+      if (type === 'expenses' || type === 'all') {
+        cards.push({ icon: 'fa-receipt', color: 'orange', label: 'Total Expenses', value: fmt(expenseTotal) });
+      }
+      if (type === 'trips' || type === 'all') {
+        cards.push({ icon: 'fa-route', color: 'blue', label: 'Total Trips', value: trips.length + ' trips' });
+      }
+      if (type === 'vehicles' || type === 'all') {
+        cards.push({ icon: 'fa-car', color: 'purple', label: 'Active Vehicles', value: activeVehicles + ' / ' + vehicles.length });
+      }
+      if (type === 'drivers' || type === 'all') {
+        cards.push({ icon: 'fa-id-card', color: 'green', label: 'Active Drivers', value: activeDrivers + ' / ' + drivers.length });
+      }
+      if (type === 'customers' || type === 'all') {
+        cards.push({ icon: 'fa-users', color: 'blue', label: 'Total Customers', value: customers.length });
+      }
+      if (type === 'payments' || type === 'all') {
+        cards.push({ icon: 'fa-money-bill-wave', color: 'teal', label: 'Payments Received', value: fmt(paymentTotal) });
+      }
+      if (type === 'all') {
+        cards.push({ icon: 'fa-chart-line', color: 'green', label: 'Net Profit', value: fmt(net) });
+      }
+
+      var grid = document.getElementById('summary-grid');
+      grid.innerHTML = cards.map(function(c) {
+        return '<div class="report-summary-card"><div class="sum-icon ' + c.color + '"><i class="fas ' + c.icon + '"></i></div><div class="sum-info"><div class="sum-label">' + Utils.escapeHtml(c.label) + '</div><div class="sum-value">' + Utils.escapeHtml(c.value) + '</div></div></div>';
+      }).join('');
+    }
+
+    function renderCharts(invoices, trips, expenses) {
+      if (window.revExpChart) window.revExpChart.destroy();
+      if (window.expBrkChart) window.expBrkChart.destroy();
+      if (window.tripsChart) window.tripsChart.destroy();
+      if (window.invoiceChart) window.invoiceChart.destroy();
+      var revCtx = document.getElementById('revenueExpenseChart');
+      var expCtx = document.getElementById('expenseBreakdownChart');
+      var tripsCtx = document.getElementById('tripsByMonthChart');
+      var invCtx = document.getElementById('invoiceStatusChart');
+      if (!revCtx && !expCtx && !tripsCtx && !invCtx) return;
+
+      var revenue = invoices.reduce(function(s,i){ return s + parseAmount(i.amount); }, 0);
+      var expenseTotal = expenses.reduce(function(s,e){ return s + parseAmount(e.amount); }, 0);
+
+      if (revCtx) {
+        window.revExpChart = new Chart(revCtx, {
+          type: 'bar',
+          data: {
+            labels: ['Revenue', 'Expenses', 'Net Profit'],
+            datasets: [{ data: [revenue, expenseTotal, revenue - expenseTotal], backgroundColor: ['#99CC33', '#EF4444', '#003333'], borderRadius: 6, barThickness: 50 }]
+          },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: function(v){ return 'TZS ' + (v/1000000).toFixed(1) + 'M'; } } } } }
+        });
+      }
+
+      if (expCtx) {
+        var byCat = {};
+        expenses.forEach(function(e){ var c = e.category || 'Other'; byCat[c] = (byCat[c]||0) + parseAmount(e.amount); });
+        var labels = Object.keys(byCat);
+        var data = labels.map(function(k){ return Math.round(byCat[k]); });
+        var colors = ['#99CC33','#003333','#F59E0B','#3B82F6','#EF4444','#8B5CF6','#10B981'];
+        window.expBrkChart = new Chart(expCtx, {
+          type: 'doughnut',
+          data: { labels: labels, datasets: [{ data: data, backgroundColor: colors.map(function(c,i){ return colors[i%colors.length]; }), borderWidth: 0, hoverOffset: 6 }] },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } } }, cutout: '60%' }
+        });
+      }
+
+      if (tripsCtx) {
+        var byMonth = {};
+        trips.forEach(function(t) {
+          var d = t.date || '';
+          var month = d && d.length >= 7 ? d.substring(0, 7) : 'Unknown';
+          byMonth[month] = (byMonth[month] || 0) + 1;
+        });
+        var monthLabels = Object.keys(byMonth).sort();
+        var monthData = monthLabels.map(function(m) { return byMonth[m]; });
+        window.tripsChart = new Chart(tripsCtx, {
+          type: 'bar',
+          data: { labels: monthLabels, datasets: [{ label: 'Trips', data: monthData, backgroundColor: '#003333', borderRadius: 6, barThickness: 40 }] },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+        });
+      }
+
+      if (invCtx) {
+        var byStatus = {};
+        invoices.forEach(function(i) {
+          var s = (i.status || 'Unknown').toLowerCase();
+          byStatus[s] = (byStatus[s] || 0) + parseAmount(i.amount);
+        });
+        var statusLabels = Object.keys(byStatus);
+        var statusData = statusLabels.map(function(s) { return Math.round(byStatus[s]); });
+        var statusColors = statusLabels.map(function(s) {
+          if (s === 'paid') return '#16a34a';
+          if (s === 'pending') return '#f59e0b';
+          if (s === 'overdue') return '#dc2626';
+          return '#6b7280';
+        });
+        window.invoiceChart = new Chart(invCtx, {
+          type: 'doughnut',
+          data: { labels: statusLabels.map(function(s){ return s.charAt(0).toUpperCase() + s.slice(1); }), datasets: [{ data: statusData, backgroundColor: statusColors, borderWidth: 0, hoverOffset: 6 }] },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } } }, cutout: '60%' }
+        });
+      }
+    }
+
+    function renderTable(type) {
+      var data = window._reportData || {};
+      var rows = [], headers = [], title = '', footRow = null;
+      var colWidths = [];
+
+      if (type === 'expenses') {
+        title = 'Expenses Report';
+        headers = ['Ref', 'Category', 'Amount', 'Date', 'Trip Ref', 'Status'];
+        rows = (data.expenses||[]).map(function(e){ return [e.ref||'-', e.category||'-', e.amount||'0', e.date||'-', e.trip||'-', e.status||'-']; });
+        colWidths = [12, 18, 14, 12, 14, 10];
+        var total = data.expenses.reduce(function(s,e){ return s + parseAmount(e.amount); }, 0);
+        footRow = ['','Total','',fmt(total),'',''];
+      } else if (type === 'trips') {
+        title = 'Trips Report';
+        headers = ['Ref', 'Origin', 'Destination', 'Vehicle', 'Driver', 'Date', 'Amount', 'Status'];
+        rows = (data.trips||[]).map(function(t){ return [t.ref||'-', t.origin||'-', t.destination||'-', t.vehicle||'-', t.driver||'-', t.date||'-', t.amount||'0', t.status||'-']; });
+        colWidths = [12, 16, 16, 14, 14, 12, 12, 10];
+      } else if (type === 'revenue') {
+        title = 'Revenue Report (Invoices)';
+        headers = ['Ref', 'Client', 'Date', 'Amount', 'Due Date', 'Status'];
+        rows = (data.invoices||[]).map(function(i){ return [i.ref||'-', i.client||'-', i.date||'-', i.amount||'0', i.due||'-', i.status||'-']; });
+        colWidths = [12, 22, 12, 14, 12, 10];
+        var total = data.invoices.reduce(function(s,i){ return s + parseAmount(i.amount); }, 0);
+        var paid = data.invoices.filter(function(i){ return (i.status||'').toLowerCase()==='paid'; }).reduce(function(s,i){ return s+parseAmount(i.amount); },0);
+        footRow = ['','Total Invoiced','',fmt(total),'',''];
+      } else if (type === 'vehicles') {
+        title = 'Vehicles Report';
+        headers = ['Plate', 'Make', 'Model', 'Year', 'Capacity', 'Status', 'Driver'];
+        rows = (data.vehicles||[]).map(function(v){ return [v.plate||'-', v.make||'-', v.model||'-', v.year||'-', v.capacity||'-', v.status||'-', v.driver||'-']; });
+        colWidths = [14, 14, 14, 8, 14, 12, 14];
+      } else if (type === 'drivers') {
+        title = 'Drivers Report';
+        headers = ['Name', 'Phone', 'License', 'Trips', 'Status'];
+        rows = (data.drivers||[]).map(function(d){ return [d.name||'-', d.phone||'-', d.license||'-', d.trips||'0', d.status||'-']; });
+        colWidths = [22, 18, 16, 10, 14];
+      } else if (type === 'customers') {
+        title = 'Customers Report';
+        headers = ['Name', 'Email', 'Phone', 'Total Trips', 'Status'];
+        rows = (data.customers||[]).map(function(c){ return [c.name||'-', c.email||'-', c.phone||'-', c.total_trips||'0', c.status||'-']; });
+        colWidths = [22, 26, 18, 12, 14];
+      } else if (type === 'payments') {
+        title = 'Payments Report';
+        headers = ['Ref', 'Method', 'Amount', 'Date', 'Status'];
+        rows = (data.payments||[]).map(function(p){ return [p.ref||'-', p.method||'-', p.amount||'0', p.date||'-', p.status||'-']; });
+        colWidths = [14, 20, 14, 12, 10];
+        var total = data.payments.reduce(function(s,p){ return s + parseAmount(p.amount); }, 0);
+        footRow = ['','Total Received','',fmt(total),'',''];
+      } else {
+        title = 'All Records Report';
+        headers = ['Type', 'Ref', 'Description', 'Amount', 'Date', 'Status'];
+        rows = [];
+        (data.invoices||[]).forEach(function(i){ rows.push(['Invoice', i.ref||'-', i.client||'-', i.amount||'0', i.date||'-', i.status||'-']); });
+        (data.expenses||[]).forEach(function(e){ rows.push(['Expense', e.ref||'-', e.category||'-', e.amount||'0', e.date||'-', e.status||'-']); });
+        (data.trips||[]).forEach(function(t){ rows.push(['Trip', t.ref||'-', t.origin+' to '+t.destination, t.amount||'0', t.date||'-', t.status||'-']); });
+        (data.payments||[]).forEach(function(p){ rows.push(['Payment', p.ref||'-', p.method||'-', p.amount||'0', p.date||'-', p.status||'-']); });
+        colWidths = [10, 12, 28, 14, 12, 10];
+      }
+
+      document.getElementById('report-table-title').textContent = title;
+      document.getElementById('table-section-title').textContent = title;
+      document.getElementById('report-table-count').textContent = rows.length + ' record' + (rows.length!==1 ? 's' : '');
+
+      var from = document.getElementById('date-from').value;
+      var to = document.getElementById('date-to').value;
+      document.getElementById('meta-title').textContent = title;
+      document.getElementById('meta-period').textContent = from + ' to ' + to;
+
+      var thead = document.getElementById('report-table-head');
+      var alignMap = { Amount: 'right', Date: 'center', Due: 'center', Status: 'center', Trips: 'right', 'Total Trips': 'right', Year: 'right' };
+      var colStyle = headers.map(function(h, i) {
+        var w = colWidths[i] || 12;
+        var align = alignMap[h] ? 'text-align:' + alignMap[h] + ';' : '';
+        return 'width:' + w + '%;min-width:' + w + '%;' + align;
+      });
+      thead.innerHTML = '<tr>' + headers.map(function(h, i) {
+        return '<th style="' + (colStyle[i]||'') + '">' + Utils.escapeHtml(h) + '</th>';
+      }).join('') + '</tr>';
+
+      var tbody = document.getElementById('report-table-body');
+      if (rows.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="' + headers.length + '" class="center text-secondary">No records found for the selected filters.</td></tr>';
+      } else {
+        tbody.innerHTML = rows.map(function(r) {
+          return '<tr>' + r.map(function(c, idx) {
+            var h = headers[idx] || '';
+            var style = (colStyle[idx]||'').replace('min-width:' + (colWidths[idx]||12) + '%;', '');
+            var cls = '';
+            if (h === 'Amount' || h === 'Total Invoiced' || h === 'Total Received') cls = ' right';
+            else if (h === 'Status') cls = ' center';
+            else if (h === 'Date' || h === 'Due Date') cls = ' center';
+            var val = (h === 'Status') ? '<span class="badge ' + badgeClass(c) + '">' + Utils.escapeHtml(c) + '</span>' : Utils.escapeHtml(c);
+            return '<td style="' + style + '" class="' + cls.trim() + '">' + val + '</td>';
+          }).join('') + '</tr>';
+        }).join('');
+      }
+
+      var tfoot = document.getElementById('report-table-foot');
+      tfoot.innerHTML = '';
+      if (footRow) {
+        tfoot.innerHTML = '<tr>' + footRow.map(function(c, idx) {
+          var style = (colStyle[idx]||'').replace('min-width:' + (colWidths[idx]||12) + '%;', '');
+          var h = headers[idx] || '';
+          var cls = '';
+          if (h === 'Amount' || h === 'Total Invoiced' || h === 'Total Received') cls = ' right';
+          return '<td style="' + style + '" class="' + cls.trim() + '">' + Utils.escapeHtml(c) + '</td>';
+        }).join('') + '</tr>';
+      }
+    }
+  </script>
+</body>
+</html>

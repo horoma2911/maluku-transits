@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - MALUKU LOGISTICS</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="manifest" href="../pwa/manifest.json">
+  <link rel="icon" href="/icons/icon-192x192.png">
+  <style>
+    .tracking-dashboard-inner {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .tracking-dashboard-icon {
+      flex: 0 0 auto;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      color: var(--secondary);
+      background: var(--primary);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+    .tracking-dashboard-text { flex: 1 1 220px; min-width: 0; }
+    .tracking-dashboard-text h4 { margin: 0 0 4px; font-size: 16px; }
+    .tracking-dashboard-text p { margin: 0; color: var(--text-secondary); font-size: 14px; }
+    .tracking-dashboard-btn { flex: 0 0 auto; white-space: nowrap; }
+    @media (max-width: 768px) {
+      .tracking-dashboard-inner { flex-direction: column; align-items: stretch; text-align: center; }
+      .tracking-dashboard-icon { align-self: center; }
+      .tracking-dashboard-btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-wrapper">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">K</div>
+        <span class="brand-text">MALUKU</span>
+      </div>
+      <nav class="sidebar-menu">
+        <div class="menu-section">Main</div>
+        <a href="dashboard.html" class="menu-item active" data-page="dashboard">
+          <i class="fas fa-th-large"></i>
+          <span class="menu-text">Dashboard</span>
+        </a>
+        <div class="menu-section">Transport Management</div>
+        <a href="vehicles.html" class="menu-item" data-page="vehicles">
+          <i class="fas fa-car"></i>
+          <span class="menu-text">Vehicles</span>
+        </a>
+        <a href="trailers.html" class="menu-item" data-page="trailers">
+          <i class="fas fa-trailer"></i>
+          <span class="menu-text">Trailers</span>
+        </a>
+        <a href="drivers.html" class="menu-item" data-page="drivers">
+          <i class="fas fa-id-card"></i>
+          <span class="menu-text">Drivers</span>
+        </a>
+        <a href="trips.html" class="menu-item" data-page="trips">
+          <i class="fas fa-route"></i>
+          <span class="menu-text">Trips</span>
+          <span class="menu-badge">5</span>
+        </a>
+        <div class="menu-section">General Supply</div>
+        <a href="suppliers.html" class="menu-item" data-page="suppliers">
+          <i class="fas fa-truck-loading"></i>
+          <span class="menu-text">Suppliers</span>
+        </a>
+        <a href="inventory.html" class="menu-item" data-page="inventory">
+          <i class="fas fa-boxes"></i>
+          <span class="menu-text">Inventory</span>
+        </a>
+        <a href="purchase-orders.html" class="menu-item" data-page="purchase-orders">
+          <i class="fas fa-file-invoice"></i>
+          <span class="menu-text">Purchase Orders</span>
+        </a>
+        <div class="menu-section">Finance</div>
+        <a href="expenses.html" class="menu-item" data-page="expenses">
+          <i class="fas fa-receipt"></i>
+          <span class="menu-text">Expenses</span>
+        </a>
+        <a href="invoices.html" class="menu-item" data-page="invoices">
+          <i class="fas fa-file-invoice-dollar"></i>
+          <span class="menu-text">Invoices</span>
+        </a>
+        <a href="payments.html" class="menu-item" data-page="payments">
+          <i class="fas fa-money-bill-wave"></i>
+          <span class="menu-text">Payments</span>
+        </a>
+        <div class="menu-section">Analytics</div>
+        <a href="reports.html" class="menu-item" data-page="reports">
+          <i class="fas fa-chart-bar"></i>
+          <span class="menu-text">Reports</span>
+        </a>
+        <div class="menu-section">System</div>
+        <a href="users.html" class="menu-item" data-page="users">
+          <i class="fas fa-users"></i>
+          <span class="menu-text">Users</span>
+        </a>
+        <a href="settings.html" class="menu-item" data-page="settings">
+          <i class="fas fa-cog"></i>
+          <span class="menu-text">Settings</span>
+        </a>
+        <a href="profile.html" class="menu-item" data-page="profile">
+          <i class="fas fa-user-circle"></i>
+          <span class="menu-text">Profile</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="#" class="menu-item" onclick="event.preventDefault(); window.location.href='login.html';">
+          <i class="fas fa-sign-out-alt"></i>
+          <span class="menu-text">Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="topbar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar" aria-controls="sidebar" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="breadcrumb">
+            <a href="#">Home</a>
+            <span class="separator">/</span>
+            <span class="current">Dashboard</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="topbar-search-toggle" id="topbar-search-toggle" type="button" aria-label="Search"><i class="fas fa-search"></i></button>
+          <div class="topbar-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search anything...">
+          </div>
+          <button class="topbar-icon-btn" id="theme-toggle" aria-label="Toggle theme">
+            <i class="fas fa-moon" id="theme-icon"></i>
+          </button>
+          <div class="dropdown">
+            <button class="topbar-icon-btn dropdown-toggle" aria-label="Notifications">
+              <i class="fas fa-bell"></i>
+              <span class="badge"></span>
+            </button>
+            <div class="dropdown-menu">
+              <div class="dropdown-item"><i class="fas fa-truck-fast"></i> Trip completed</div>
+              <div class="dropdown-item"><i class="fas fa-file-invoice"></i> Invoice paid</div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item"><i class="fas fa-check-circle text-success"></i> Mark all as read</div>
+            </div>
+          </div>
+          <div class="dropdown">
+            <div class="topbar-user dropdown-toggle">
+              <div class="avatar">AU</div>
+              <div class="user-info">
+                <span class="user-name">Admin User</span>
+                <span class="user-role">Administrator</span>
+              </div>
+            </div>
+            <div class="dropdown-menu">
+              <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
+              <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" onclick="event.preventDefault(); window.location.href='login.html';">
+                <i class="fas fa-sign-out-alt text-danger"></i> Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <div class="page-header">
+          <h1>Dashboard</h1>
+          <p>Welcome back, Admin. Here's what's happening today.</p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon green"><i class="fas fa-car"></i></div>
+            <div class="stat-info">
+              <div class="stat-label">Total Vehicles</div>
+              <div class="stat-value" id="stat-vehicles">-</div>
+              <div class="stat-change up"><i class="fas fa-arrow-up"></i> vs last month</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon blue"><i class="fas fa-route"></i></div>
+            <div class="stat-info">
+              <div class="stat-label">Active Trips</div>
+              <div class="stat-value" id="stat-trips">-</div>
+              <div class="stat-change up"><i class="fas fa-arrow-up"></i> vs last month</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon orange"><i class="fas fa-id-card"></i></div>
+            <div class="stat-info">
+              <div class="stat-label">Drivers</div>
+              <div class="stat-value" id="stat-drivers">-</div>
+              <div class="stat-change down"><i class="fas fa-arrow-down"></i> vs last month</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple"><i class="fas fa-users"></i></div>
+            <div class="stat-info">
+              <div class="stat-label">Customers</div>
+              <div class="stat-value" id="stat-customers">-</div>
+              <div class="stat-change up"><i class="fas fa-arrow-up"></i> vs last month</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon cyan"><i class="fas fa-chart-line"></i></div>
+            <div class="stat-info">
+              <div class="stat-label">Revenue (Invoiced)</div>
+              <div class="stat-value" id="stat-revenue">-</div>
+              <div class="stat-change up"><i class="fas fa-arrow-up"></i> invoiced total</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon red"><i class="fas fa-receipt"></i></div>
+            <div class="stat-info">
+              <div class="stat-label">Expenses</div>
+              <div class="stat-value" id="stat-expenses">-</div>
+              <div class="stat-change down"><i class="fas fa-arrow-down"></i> recorded total</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 mb-6">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Revenue Overview</h3>
+              <select class="form-control form-control-sm text-sm">
+                <option>This Year</option>
+                <option>Last Year</option>
+              </select>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="revenueChart"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Trips Overview</h3>
+              <select class="form-control form-control-sm text-sm">
+                <option>This Year</option>
+                <option>Last Year</option>
+              </select>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="tripsChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 mb-6">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Recent Trips</h3>
+              <a href="trips.html" class="btn btn-sm btn-secondary">View All</a>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+              <table class="w-full">
+                <thead>
+                  <tr>
+                    <th>Reference</th>
+                    <th>Route</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="recent-trips">
+                  <tr><td colspan="3" class="text-center text-secondary">Loading...</td></tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Recent Payments</h3>
+              <a href="payments.html" class="btn btn-sm btn-secondary">View All</a>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+              <table class="w-full">
+                <thead>
+                  <tr>
+                    <th>Reference</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="recent-payments">
+                  <tr><td colspan="3" class="text-center text-secondary">Loading...</td></tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Recent Activities</h3>
+            </div>
+            <div class="card-body">
+              <div class="d-flex flex-column gap-4" id="recent-activities">
+                <div class="text-center text-secondary">Loading...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Quick Actions</h3>
+          </div>
+          <div class="card-body">
+            <div class="grid grid-cols-4">
+              <a href="trips.html" class="btn btn-secondary justify-end p-4">
+                <i class="fas fa-plus-circle"></i> New Trip
+              </a>
+              <a href="vehicles.html" class="btn btn-secondary justify-end p-4">
+                <i class="fas fa-car"></i> Add Vehicle
+              </a>
+              <a href="invoices.html" class="btn btn-secondary justify-end p-4">
+                <i class="fas fa-file-invoice"></i> Create Invoice
+              </a>
+              <a href="expenses.html" class="btn btn-secondary justify-end p-4">
+                <i class="fas fa-receipt"></i> Add Expense
+              </a>
+              <a href="live-tracking.html" class="btn btn-secondary justify-end p-4" data-tracking-action>
+                <i class="fas fa-location-crosshairs"></i> Live Tracking
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card tracking-dashboard-card">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-location-crosshairs"></i> Live Tracking</h3>
+            <a href="live-tracking.html" class="btn btn-sm btn-secondary">View Page</a>
+          </div>
+          <div class="card-body">
+            <div class="tracking-dashboard-inner">
+              <div class="tracking-dashboard-icon"><i class="fas fa-satellite-dish"></i></div>
+              <div class="tracking-dashboard-text">
+                <h4>Real-Time Fleet Tracking</h4>
+                <p>Monitor vehicle positions, routes, and driver status across your fleet in real time.</p>
+              </div>
+              <button class="btn btn-primary tracking-dashboard-btn" data-tracking-action>
+                <i class="fas fa-location-crosshairs"></i> Open Live Tracking
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <span> MALUKU LOGISTICS v1.0</span>
+        <span> Powered by PHP & PostgreSQL</span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/theme.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/layout.js"></script>
+  <script src="../js/charts.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/api.js"></script>
+  <script>
+    // Parse "TZS 1,234" / "1,234" / numbers into a float.
+    function parseAmount(val) {
+      if (typeof val === 'number') return val;
+      var n = Number(String(val || '').replace(/[^0-9.\-]/g, ''));
+      return isNaN(n) ? 0 : n;
+    }
+
+    function setText(id, val) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = val;
+    }
+
+    function badge(status) {
+      return '<span class="badge ' + Utils.getStatusBadge(status) + '">' + Utils.escapeHtml(status) + '</span>';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      Charts.revenueChart('revenueChart');
+      Charts.tripsChart('tripsChart');
+      loadDashboard();
+    });
+
+    function loadDashboard() {
+      Promise.all([
+        API.get('/vehicles'),
+        API.get('/trips'),
+        API.get('/drivers'),
+        API.get('/customers'),
+        API.get('/invoices'),
+        API.get('/expenses'),
+        API.get('/payments'),
+        API.get('/activities')
+      ]).then(function (res) {
+        var vehicles = res[0] || [], trips = res[1] || [], drivers = res[2] || [];
+        var customers = res[3] || [], invoices = res[4] || [], expenses = res[5] || [];
+        var payments = res[6] || [], activities = res[7] || [];
+
+        var activeTrips = trips.filter(function (t) { return t.status === 'in_transit' || t.status === 'pending'; }).length;
+        var revenue = invoices.reduce(function (s, i) { return s + parseAmount(i.amount); }, 0);
+        var expenseTotal = expenses.reduce(function (s, e) { return s + parseAmount(e.amount); }, 0);
+
+        setText('stat-vehicles', vehicles.length);
+        setText('stat-trips', activeTrips);
+        setText('stat-drivers', drivers.length);
+        setText('stat-customers', customers.length);
+        setText('stat-revenue', 'TZS ' + Math.round(revenue).toLocaleString('en-TZ'));
+        setText('stat-expenses', 'TZS ' + Math.round(expenseTotal).toLocaleString('en-TZ'));
+
+        // Recent trips (latest 4)
+        var tripsBody = document.getElementById('recent-trips');
+        if (tripsBody) {
+          var recent = trips.slice(-4).reverse();
+          tripsBody.innerHTML = recent.length ? recent.map(function (t) {
+            return '<tr>' +
+              '<td class="font-weight-600">' + Utils.escapeHtml(t.ref) + '</td>' +
+              '<td>' + Utils.escapeHtml(t.origin + ' - ' + t.destination) + '</td>' +
+              '<td>' + badge(t.status) + '</td>' +
+            '</tr>';
+          }).join('') : '<tr><td colspan="3" class="text-center text-secondary">No trips found.</td></tr>';
+        }
+
+        // Recent payments (latest 4)
+        var payBody = document.getElementById('recent-payments');
+        if (payBody) {
+          var recentPay = payments.slice(-4).reverse();
+          payBody.innerHTML = recentPay.length ? recentPay.map(function (p) {
+            return '<tr>' +
+              '<td class="font-weight-600">' + Utils.escapeHtml(p.ref) + '</td>' +
+              '<td>' + Utils.escapeHtml(p.amount) + '</td>' +
+              '<td>' + badge(p.status) + '</td>' +
+            '</tr>';
+          }).join('') : '<tr><td colspan="3" class="text-center text-secondary">No payments found.</td></tr>';
+        }
+
+        // Recent activities
+        var actBody = document.getElementById('recent-activities');
+        if (actBody) {
+          var recentAct = activities.slice(-5).reverse();
+          actBody.innerHTML = recentAct.length ? recentAct.map(function (a) {
+            return '<div class="d-flex gap-3 align-start">' +
+              '<div class="stat-icon blue avatar-sm"><i class="fas ' + Utils.escapeHtml(a.icon || 'fa-circle') + '"></i></div>' +
+              '<div>' +
+                '<div class="text-sm font-weight-600">' + Utils.escapeHtml(a.action) + '</div>' +
+                '<div class="text-xs text-secondary mt-1">' + Utils.escapeHtml(a.time) + '</div>' +
+              '</div>' +
+            '</div>';
+          }).join('') : '<div class="text-center text-secondary">No recent activity.</div>';
+        }
+      }).catch(function (err) {
+        if (err.status === 401) { window.location.href = 'login.html'; }
+      });
+    }
+
+    (function () {
+      var TRACKING_URL = 'https://at.utrackafrica.com/';
+      document.querySelectorAll('[data-tracking-action]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          window.open(TRACKING_URL, '_blank', 'noopener,noreferrer');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

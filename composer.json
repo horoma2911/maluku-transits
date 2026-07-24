@@ -1,0 +1,11 @@
+{
+    "name": "malukulogistics/backend",
+    "description": "MALUKU LOGISTICS - PHP API backend",
+    "require": {
+        "php": ">=8.1",
+        "dompdf/dompdf": "^3.1"
+    },
+    "scripts": {
+        "start": "bash start.sh"
+    }
+}

@@ -1,0 +1,6 @@
+Ref,Origin,Destination,Vehicle,Driver,Date,Amount,Status
+TRP-2026-001,"Dar es Salaam",Dodoma,"T 123 ABC","Juma Mwinyi",2026-07-15,"TZS 85,000",in_transit
+TRP-2026-002,Mwanza,Arusha,"E 567 BCD","Hassan Said",2026-07-14,"TZS 45,000",completed
+TRP-2026-003,Mbeya,Morogoro,"R 901 CDE","Salum Issa",2026-07-14,"TZS 62,000",pending
+TRP-2026-004,"Dar es Salaam",Moshi,"Z 789 EFG","Ramadhani Ali",2026-07-13,"TZS 120,000",completed
+TRP-2026-005,Tanga,Dodoma,"T 123 ABC","Juma Mwinyi",2026-07-12,"TZS 0",cancelled

@@ -1,0 +1,13 @@
+# Dependencies / build
+vendor/
+
+# Local SQLite database (created by install.php when DB_DRIVER='sqlite')
+db/*.sqlite
+db/*.sqlite-journal
+
+# PHP opcache / temp
+*.log
+
+# Editor / OS
+.DS_Store
+Thumbs.db
