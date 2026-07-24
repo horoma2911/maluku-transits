@@ -81,10 +81,10 @@ const AppData = {
   ],
 
   users: [
-    { id: 1, name: 'Admin User', email: 'admin@malukulogistics.co.tz', role: 'Administrator', status: 'active', lastLogin: '2026-07-15 09:30' },
-    { id: 2, name: 'Ops Manager', email: 'ops@malukulogistics.co.tz', role: 'Manager', status: 'active', lastLogin: '2026-07-15 08:15' },
-    { id: 3, name: 'Accountant', email: 'fin@malukulogistics.co.tz', role: 'Accountant', status: 'active', lastLogin: '2026-07-14 17:45' },
-    { id: 4, name: 'Dispatcher', email: 'disp@malukulogistics.co.tz', role: 'Dispatcher', status: 'inactive', lastLogin: '2026-07-10 14:20' },
+    { id: 1, name: 'Admin User', email: 'admin@maluku.co.tz', role: 'Administrator', status: 'active', lastLogin: '2026-07-15 09:30' },
+    { id: 2, name: 'Ops Manager', email: 'ops@maluku.co.tz', role: 'Manager', status: 'active', lastLogin: '2026-07-15 08:15' },
+    { id: 3, name: 'Accountant', email: 'fin@maluku.co.tz', role: 'Accountant', status: 'active', lastLogin: '2026-07-14 17:45' },
+    { id: 4, name: 'Dispatcher', email: 'disp@maluku.co.tz', role: 'Dispatcher', status: 'inactive', lastLogin: '2026-07-10 14:20' },
   ],
 
   activities: [

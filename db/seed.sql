@@ -72,10 +72,10 @@ INSERT INTO payments (id, ref, method, amount, date, status) VALUES
 (3, 'PAY-2026-003', 'Cheque', 'TZS 250,000', '2026-07-12', 'pending');
 
 INSERT INTO users (id, name, email, role, status, password, last_login) VALUES
-(1, 'Admin User', 'admin@kasuku.co.tz', 'Administrator', 'active', '$2y$12$d5uJmuYunZ3f3w1LzfG6Tev1gW3k2h0/XAxirKxoENRw/KdX09YjG', '2026-07-15 09:30'),
-(2, 'Ops Manager', 'ops@kasuku.co.tz', 'Manager', 'active', '$2y$12$d5uJmuYunZ3f3w1LzfG6Tev1gW3k2h0/XAxirKxoENRw/KdX09YjG', '2026-07-15 08:15'),
-(3, 'Accountant', 'fin@kasuku.co.tz', 'Accountant', 'active', '$2y$12$d5uJmuYunZ3f3w1LzfG6Tev1gW3k2h0/XAxirKxoENRw/KdX09YjG', '2026-07-14 17:45'),
-(4, 'Dispatcher', 'disp@kasuku.co.tz', 'Dispatcher', 'inactive', '$2y$12$d5uJmuYunZ3f3w1LzfG6Tev1gW3k2h0/XAxirKxoENRw/KdX09YjG', '2026-07-10 14:20');
+(1, 'Admin User', 'admin@maluku.co.tz', 'Administrator', 'active', '$2y$12$d5uJmuYunZ3f3w1LzfG6Tev1gW3k2h0/XAxirKxoENRw/KdX09YjG', '2026-07-15 09:30'),
+(2, 'Ops Manager', 'ops@maluku.co.tz', 'Manager', 'active', '$2y$12$d5uJmuYunZ3f3w1LzfG6Tev1gW3k2h0/XAxirKxoENRw/KdX09YjG', '2026-07-15 08:15'),
+(3, 'Accountant', 'fin@maluku.co.tz', 'Accountant', 'active', '$2y$12$d5uJmuYunZ3f3w1LzfG6Tev1gW3k2h0/XAxirKxoENRw/KdX09YjG', '2026-07-14 17:45'),
+(4, 'Dispatcher', 'disp@maluku.co.tz', 'Dispatcher', 'inactive', '$2y$12$d5uJmuYunZ3f3w1LzfG6Tev1gW3k2h0/XAxirKxoENRw/KdX09YjG', '2026-07-10 14:20');
 
 INSERT INTO activities (id, username, action, time, icon) VALUES
 (1, 'Juma Mwinyi', 'Completed trip TRP-2026-002', '2 hours ago', 'fa-truck-fast'),
